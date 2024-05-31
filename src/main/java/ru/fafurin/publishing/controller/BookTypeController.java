@@ -1,5 +1,7 @@
 package ru.fafurin.publishing.controller;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,6 +29,8 @@ public class BookTypeController {
 
     @Autowired
     private BookTypeService bookTypeService;
+
+    private final Counter addTypeCounter = Metrics.counter("add_type_count");
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех типах книг")
@@ -60,6 +64,8 @@ public class BookTypeController {
     @Operation(summary = "Сохранить новый тип книги")
     public ResponseEntity<BookType> save(
             @RequestBody @Valid BookTypeRequest bookTypeRequest) {
+        addTypeCounter.increment();
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(bookTypeService.save(bookTypeRequest));

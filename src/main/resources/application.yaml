@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: book-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/publishing
+    username: someuser
+    password: somepass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+springdoc:
+  show-actuator: false
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.index.html

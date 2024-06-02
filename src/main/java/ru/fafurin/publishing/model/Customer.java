@@ -2,6 +2,7 @@ package ru.fafurin.publishing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertFalse;
 import lombok.*;
 
 import java.util.List;
@@ -22,9 +23,8 @@ public class Customer {
     @Column(unique = true)
     private String email;
     private String phone;
-
+    private boolean isDeleted = false;
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Order> orders;
-
 }

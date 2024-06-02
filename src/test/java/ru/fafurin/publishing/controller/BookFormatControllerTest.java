@@ -106,7 +106,7 @@ public class BookFormatControllerTest {
      */
     @Test
     public void GetById_Returns200OK() throws Exception {
-        BookFormat bookFormat = getTestBookFormat(1L, "New Book Format", "Test Designation");
+        BookFormat bookFormat = Mockito.mock(BookFormat.class);
 
         when(service.get(bookFormatId)).thenReturn(bookFormat);
 
@@ -135,9 +135,9 @@ public class BookFormatControllerTest {
     @Test
     public void GetAll_Returns200OK() throws Exception {
         List<BookFormat> bookFormats = List.of(
-                getTestBookFormat(1L, "Another Book Format", "Test Designation"),
-                getTestBookFormat(2L, "Test Book Format", "Test Designation"),
-                getTestBookFormat(3L, "Old Book Format", "Test Designation")
+                Mockito.mock(BookFormat.class),
+                Mockito.mock(BookFormat.class),
+                Mockito.mock(BookFormat.class)
         );
 
         when(service.getAll()).thenReturn(bookFormats);
@@ -219,12 +219,4 @@ public class BookFormatControllerTest {
                 .andDo(print());
     }
 
-    private BookFormat getTestBookFormat(Long id, String title, String designation) {
-        return BookFormat.builder()
-                .id(id)
-                .title(title)
-                .designation(designation)
-                .isDeleted(false)
-                .build();
-    }
 }

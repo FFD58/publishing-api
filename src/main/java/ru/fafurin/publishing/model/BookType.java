@@ -2,7 +2,6 @@ package ru.fafurin.publishing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertFalse;
 import lombok.*;
 
 import java.util.List;
@@ -25,7 +24,5 @@ public class BookType {
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Book> books;
-
-    @AssertFalse
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 }

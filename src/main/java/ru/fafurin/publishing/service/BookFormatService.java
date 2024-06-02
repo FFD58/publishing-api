@@ -9,6 +9,7 @@ import ru.fafurin.publishing.model.BookFormat;
 import ru.fafurin.publishing.repository.BookFormatRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookFormatService {
@@ -16,20 +17,45 @@ public class BookFormatService {
     @Autowired
     private BookFormatRepository repository;
 
+    /**
+     * Получить список всех форматов книг
+     * @return список всех форматов книг
+     */
     public List<BookFormat> getAll() {
-        return repository.findAll();
+        List<BookFormat> booFormats = repository.findAll();
+        return booFormats.stream()
+                .filter(b -> !b.isDeleted())
+                .collect(Collectors.toList());
     }
 
+    /**
+     * Получить формат книги по идентификатору
+     * @param id - идентификатор формата книги
+     * @return формат книги или выбрасывается исключение,
+     *         если формат книги не найден по идентификатору
+     */
     public BookFormat get(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new BookFormatNotFoundException(id));
     }
 
+    /**
+     * Сохранить новый формат книги
+     * @param bookFormatRequest - данные для сохранения нового формата книги
+     * @return сохраненный формат книги
+     */
     public BookFormat save(BookFormatRequest bookFormatRequest) {
         return repository.save(
                 BookFormatMapper.getBookFormat(new BookFormat(), bookFormatRequest));
     }
 
+    /**
+     * Изменить данные существующего формата книги
+     * @param id - идентификатор формата книги
+     * @param bookFormatRequest - данные для изменения существующего формата книги
+     * @return - измененный формат книги или выбрасывается исключение,
+     *           если формат книги не найден по идентификатору
+     */
     public BookFormat update(Long id, BookFormatRequest bookFormatRequest) {
         BookFormat bookFormat = repository.findById(id)
                 .orElseThrow(() -> new BookFormatNotFoundException(id));
@@ -46,7 +72,7 @@ public class BookFormatService {
     public void delete(Long id) {
         BookFormat bookFormat = repository.findById(id)
                 .orElseThrow(() -> new BookFormatNotFoundException(id));
-        bookFormat.setIsDeleted(true);
+        bookFormat.setDeleted(true);
         repository.save(bookFormat);
     }
 

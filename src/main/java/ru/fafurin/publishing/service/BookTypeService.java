@@ -17,29 +17,51 @@ public class BookTypeService {
     @Autowired
     private BookTypeRepository repository;
 
+    /**
+     * Получить список всех типов книг
+     * @return список всех типов книг
+     */
     public List<BookType> getAll() {
         List<BookType> bookTypes = repository.findAll();
         return bookTypes.stream()
-                .filter(b -> b.getIsDeleted().equals(false))
+                .filter(b -> !b.isDeleted())
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Получить тип книги по идентификатору
+     * @param id - идентификатор типа книги
+     * @return тип книги или выбрасывается исключение,
+     *         если тип книги не найден по идентификатору
+     */
     public BookType get(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new BookTypeNotFoundException(id));
     }
 
-    public BookType save(BookTypeRequest bookTypeResponse) {
+    /**
+     * Сохранить новый тип книги
+     * @param bookTypeRequest - данные для сохранения нового типа книги
+     * @return сохраненный тип книги
+     */
+    public BookType save(BookTypeRequest bookTypeRequest) {
         return repository.save(
-                BookTypeMapper.getBookType(new BookType(), bookTypeResponse));
+                BookTypeMapper.getBookType(new BookType(), bookTypeRequest));
     }
 
-    public BookType update(Long id, BookTypeRequest bookTypeResponse) {
+    /**
+     * Изменить данные существующего типа книги
+     * @param id - идентификатор типа книги
+     * @param bookTypeRequest - данные для изменения существующего типа книги
+     * @return - измененный тип книги или выбрасывается исключение,
+     *           если тип книги не найден по идентификатору
+     */
+    public BookType update(Long id, BookTypeRequest bookTypeRequest) {
         BookType bookType = repository.findById(id)
                 .orElseThrow(() -> new BookTypeNotFoundException(id));
 
         return repository.save(
-                BookTypeMapper.getBookType(bookType, bookTypeResponse));
+                BookTypeMapper.getBookType(bookType, bookTypeRequest));
     }
 
     /**
@@ -50,7 +72,7 @@ public class BookTypeService {
     public void delete(Long id) {
         BookType bookType = repository.findById(id)
                 .orElseThrow(() -> new BookTypeNotFoundException(id));
-        bookType.setIsDeleted(true);
+        bookType.setDeleted(true);
         repository.save(bookType);
     }
 

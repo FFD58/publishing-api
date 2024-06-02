@@ -119,7 +119,7 @@ public class BookTypeServiceTest {
 
         service.delete(bookTypeId);
 
-        Assertions.assertEquals(true, bookType.getIsDeleted());
+        Assertions.assertTrue(bookType.isDeleted());
     }
 
 }

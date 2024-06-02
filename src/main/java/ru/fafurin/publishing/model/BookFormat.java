@@ -2,6 +2,7 @@ package ru.fafurin.publishing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertFalse;
 import lombok.*;
 
 import java.util.List;
@@ -27,5 +28,6 @@ public class BookFormat {
     @JsonIgnore
     private List<Book> books;
 
-    private Boolean isDeleted = false;
+    @AssertFalse
+    private boolean isDeleted;
 }

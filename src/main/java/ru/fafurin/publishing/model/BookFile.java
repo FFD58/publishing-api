@@ -21,7 +21,7 @@ public class BookFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String path;
-    private Boolean workable;
+    private boolean workable;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp

@@ -1,17 +1,18 @@
 package ru.fafurin.publishing.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertFalse;
 import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "books")
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Book {
 
     @Id
@@ -37,4 +38,7 @@ public class Book {
     @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @AssertFalse
+    private boolean isDeleted;
 }

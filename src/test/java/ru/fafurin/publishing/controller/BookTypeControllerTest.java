@@ -86,9 +86,6 @@ public class BookTypeControllerTest {
      */
     @Test
     public void GetByIdThenWrongId_Returns404NotFound() throws Exception {
-        Long bookTypeId = 111L;
-        String requestURI = END_POINT_PATH + "/" + bookTypeId;
-
         when(service.get(bookTypeId)).thenThrow(BookTypeNotFoundException.class);
 
         mockMvc.perform(get(requestURI))
@@ -128,9 +125,9 @@ public class BookTypeControllerTest {
     @Test
     public void GetAll_Returns200OK() throws Exception {
         List<BookType> bookTypes = List.of(
-                getTestBookType(1L, "Another Book Type"),
-                getTestBookType(2L, "Test Book Type"),
-                getTestBookType(3L, "Old Book Type")
+                Mockito.mock(BookType.class),
+                Mockito.mock(BookType.class),
+                Mockito.mock(BookType.class)
         );
 
         when(service.getAll()).thenReturn(bookTypes);
@@ -151,7 +148,7 @@ public class BookTypeControllerTest {
 
         mockMvc.perform(put(requestURI)
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(bookType)))
+                        .content(objectMapper.writeValueAsString(bookTypeRequest)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
@@ -161,10 +158,11 @@ public class BookTypeControllerTest {
      */
     @Test
     public void UpdateThenInvalidRequest_Returns400BadRequest() throws Exception {
-        BookType bookType = getTestBookType(bookTypeId, null);
+        BookTypeRequest invalidBookTypeRequest = BookTypeRequest.builder()
+                .title(null).build();
         mockMvc.perform(put(requestURI)
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(bookType)))
+                        .content(objectMapper.writeValueAsString(invalidBookTypeRequest)))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
@@ -209,11 +207,4 @@ public class BookTypeControllerTest {
                 .andDo(print());
     }
 
-    private BookType getTestBookType(Long id, String title) {
-        return BookType.builder()
-                .id(id)
-                .title(title)
-                .isDeleted(false)
-                .build();
-    }
 }

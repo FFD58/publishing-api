@@ -1,7 +1,7 @@
 package ru.fafurin.publishing.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 public class BookTypeRequest {
     @Schema(description = "Название", example = "Монография")
     @Size(min = 3, max = 30)
-    @NotBlank
+    @NotEmpty
     private String title;
 }

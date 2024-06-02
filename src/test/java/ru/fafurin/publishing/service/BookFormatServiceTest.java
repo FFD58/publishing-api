@@ -122,7 +122,7 @@ public class BookFormatServiceTest {
 
         service.delete(bookFormatId);
 
-        Assertions.assertEquals(true, bookFormat.getIsDeleted());
+        Assertions.assertTrue(bookFormat.isDeleted());
     }
 
 }

@@ -94,9 +94,6 @@ public class BookFormatControllerTest {
      */
     @Test
     public void GetByIdThenWrongId_Returns404NotFound() throws Exception {
-        Long bookFormatId = 111L;
-        String requestURI = END_POINT_PATH + "/" + bookFormatId;
-
         when(service.get(bookFormatId)).thenThrow(BookFormatNotFoundException.class);
 
         mockMvc.perform(get(requestURI))
@@ -109,19 +106,14 @@ public class BookFormatControllerTest {
      */
     @Test
     public void GetById_Returns200OK() throws Exception {
-        Long bookFormatId = 1L;
-        String requestURI = END_POINT_PATH + "/" + bookFormatId;
-
         BookFormat bookFormat = getTestBookFormat(1L, "New Book Format", "Test Designation");
 
         when(service.get(bookFormatId)).thenReturn(bookFormat);
 
-        String responseBody = objectMapper.writeValueAsString(bookFormat);
-
         mockMvc.perform(get(requestURI))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(content().json(responseBody))
+                .andExpect(content().json(objectMapper.writeValueAsString(bookFormat)))
                 .andDo(print());
     }
 
@@ -150,12 +142,10 @@ public class BookFormatControllerTest {
 
         when(service.getAll()).thenReturn(bookFormats);
 
-        String responseBody = objectMapper.writeValueAsString(bookFormats);
-
         mockMvc.perform(get(END_POINT_PATH))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(content().json(responseBody))
+                .andExpect(content().json(objectMapper.writeValueAsString(bookFormats)))
                 .andDo(print());
     }
 
@@ -177,14 +167,14 @@ public class BookFormatControllerTest {
      */
     @Test
     public void UpdateThenInvalidRequest_Returns400BadRequest() throws Exception {
-        Long bookFormatId = 111L;
-        String requestURI = END_POINT_PATH + "/" + bookFormatId;
+        BookFormatRequest invalidBookFormatRequest = BookFormatRequest.builder()
+                .title(null)
+                .designation("Test Designation")
+                .build();
 
-        BookFormat bookFormat = getTestBookFormat(bookFormatId, null, "Test Designation");
-
-        String requestBody = objectMapper.writeValueAsString(bookFormat);
-
-        mockMvc.perform(put(requestURI).contentType("application/json").content(requestBody))
+        mockMvc.perform(put(requestURI)
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(invalidBookFormatRequest)))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }

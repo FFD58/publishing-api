@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,13 @@ import ru.fafurin.publishing.dto.BookRequest;
 import ru.fafurin.publishing.exception.BookNotFoundException;
 import ru.fafurin.publishing.model.Book;
 import ru.fafurin.publishing.service.BookService;
+import ru.fafurin.publishing.service.FileGateway;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/books")
 @Tag(
@@ -25,8 +28,8 @@ import java.util.List;
 )
 public class BookController {
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
+    private final FileGateway fileGateway;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех книгах")
@@ -60,9 +63,14 @@ public class BookController {
     @Operation(summary = "Сохранить новую книгу")
     public ResponseEntity<Book> save(
             @RequestBody @Valid BookRequest bookRequest) {
+        Book book = bookService.save(bookRequest);
+
+        String filename = book.getId() + "_" + book.getTitle() + "_" + LocalDateTime.now().getNano() + ".txt";
+        filename = filename.replace(" ", "_");
+        fileGateway.writeToFile(filename, String.valueOf(book));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(bookService.save(bookRequest));
+                .body(book);
     }
 
     @PutMapping("/{id}")

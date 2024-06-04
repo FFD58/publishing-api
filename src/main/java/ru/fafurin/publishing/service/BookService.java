@@ -74,10 +74,11 @@ public class BookService {
         book.setFormat(bookFormat);
 
         Long orderId = bookRequest.getOrderId();
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
-        book.setOrder(order);
-
+        if (orderId != null) {
+            Order order = orderRepository.findById(orderId)
+                    .orElseThrow(() -> new OrderNotFoundException(orderId));
+            book.setOrder(order);
+        }
         return bookRepository.save(BookMapper.getBook(book, bookRequest));
     }
 

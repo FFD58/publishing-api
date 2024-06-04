@@ -25,6 +25,5 @@ public class BookRequest {
     @NotEmpty
     private List<String> authors;
     private List<String> files;
-    @NotNull
     private Long orderId;
 }

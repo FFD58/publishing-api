@@ -45,4 +45,8 @@ public class Order {
     @JsonIgnore
     private List<UserTask> tasks;
 
+    public void setBook(Book book) {
+        this.book = book;
+        book.setOrder(this);
+    }
 }

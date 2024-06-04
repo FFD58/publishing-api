@@ -9,6 +9,7 @@ import ru.fafurin.publishing.model.Customer;
 import ru.fafurin.publishing.repository.CustomerRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,13 +41,13 @@ public class CustomerService {
     }
 
     /**
-     * Сохранить нового заказчика
-     * @param customerRequest - данные для сохранения нового заказчика
-     * @return сохраненный заказчик
+     * Сохранить нового заказчика, если он не найден по email
+     * @param customerRequest - данные заказчика
+     * @return новый или существующий заказчик
      */
-    public Customer save(CustomerRequest customerRequest) {
-        return repository.save(
-                CustomerMapper.getCustomer(new Customer(), customerRequest));
+    public Customer saveIfNotExists(CustomerRequest customerRequest) {
+        Customer customer = CustomerMapper.getCustomer(new Customer(), customerRequest);
+        return checkCustomerExisting(customer);
     }
 
     /**
@@ -74,6 +75,18 @@ public class CustomerService {
                 .orElseThrow(() -> new CustomerNotFoundException(id));
         customer.setDeleted(true);
         repository.save(customer);
+    }
+
+
+    /**
+     * Вернуть заказчика, если заказчик с таким email существует,
+     * или вернуть нового заказчика
+     * @param customer - данные заказчика
+     * @return новый или существующий заказчик
+     */
+    private Customer checkCustomerExisting(Customer customer) {
+        Optional<Customer> customerOptional = repository.findByEmail(customer.getEmail());
+        return customerOptional.orElseGet(() -> repository.save(customer));
     }
 
 }

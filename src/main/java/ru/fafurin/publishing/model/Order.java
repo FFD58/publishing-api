@@ -22,12 +22,13 @@ public class Order {
     private Long id;
     private Integer number;
     private String deadline;
-    private String description;
+    private String comment;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     private LocalDateTime finishedAt;
+    private boolean isDeleted = false;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -38,7 +39,6 @@ public class Order {
 
     @OneToOne
     @JoinColumn(name = "book_id")
-    @JsonIgnore
     private Book book;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -48,5 +48,10 @@ public class Order {
     public void setBook(Book book) {
         this.book = book;
         book.setOrder(this);
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+        customer.addOrder(this);
     }
 }

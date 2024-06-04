@@ -62,7 +62,7 @@ public class CustomerController {
             @RequestBody @Valid CustomerRequest customerRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(customerService.save(customerRequest));
+                .body(customerService.saveIfNotExists(customerRequest));
     }
 
     @PutMapping("/{id}")

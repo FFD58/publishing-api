@@ -46,7 +46,6 @@ public class BookServiceTest {
                 .title("Test Book")
                 .bookTypeId(1L)
                 .bookFormatId(1L)
-                .orderId(1L)
                 .authors(List.of("Test Author"))
                 .files(List.of("test.file"))
                 .build();

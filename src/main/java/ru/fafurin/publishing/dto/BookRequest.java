@@ -18,12 +18,22 @@ public class BookRequest {
     @Size(min = 3, max = 50)
     @NotEmpty
     private String title;
+
+    @Schema(description = "Идентификатор типа книги",
+            example = "1")
     @NotNull
     private Long bookTypeId;
+
+    @Schema(description = "Идентификатор формата книги",
+            example = "1")
     @NotNull
     private Long bookFormatId;
+
+    @Schema(description = "ФИО автора/ов",
+            example = "['Толстой Лев Николаевич']")
     @NotEmpty
     private List<String> authors;
+
+    @Schema(description = "Пути к файлам")
     private List<String> files;
-    private Long orderId;
 }

@@ -18,6 +18,7 @@ public class BookFormatRequest {
     @Size(min = 2, max = 30)
     @NotEmpty
     private String title;
+
     @Schema(description = "Размер", example = "60х84/8")
     private String designation;
 }

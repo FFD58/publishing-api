@@ -16,7 +16,7 @@ public class BookMapper {
             List<String> filePaths = bookRequest.getFiles();
 
             List<BookFile> files = filePaths.stream().map(f -> BookFileMapper.getBookFile(new BookFile(), f)).toList();
-            book.setFiles(files);
+            book.addFiles(files);
         }
         return book;
     }

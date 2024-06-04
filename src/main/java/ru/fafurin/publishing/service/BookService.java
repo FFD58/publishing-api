@@ -6,12 +6,10 @@ import ru.fafurin.publishing.dto.BookRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.exception.BookNotFoundException;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
-import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.mapper.BookMapper;
 import ru.fafurin.publishing.model.Book;
 import ru.fafurin.publishing.model.BookFormat;
 import ru.fafurin.publishing.model.BookType;
-import ru.fafurin.publishing.model.Order;
 import ru.fafurin.publishing.repository.BookFormatRepository;
 import ru.fafurin.publishing.repository.BookRepository;
 import ru.fafurin.publishing.repository.BookTypeRepository;
@@ -73,12 +71,6 @@ public class BookService {
                 .orElseThrow(() -> new BookFormatNotFoundException(formatId));
         book.setFormat(bookFormat);
 
-        Long orderId = bookRequest.getOrderId();
-        if (orderId != null) {
-            Order order = orderRepository.findById(orderId)
-                    .orElseThrow(() -> new OrderNotFoundException(orderId));
-            book.setOrder(order);
-        }
         return bookRepository.save(BookMapper.getBook(book, bookRequest));
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertFalse;
 import lombok.*;
+import org.aspectj.weaver.ast.Or;
 
 import java.util.List;
 
@@ -27,4 +28,10 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Order> orders;
+
+    public void addOrder(Order order) {
+        if (order != null) {
+            orders.add(order);
+        }
+    }
 }

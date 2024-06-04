@@ -157,7 +157,9 @@ public class BookFormatControllerTest {
         when(service.update(bookFormatId, bookFormatRequest))
                 .thenThrow(BookFormatNotFoundException.class);
 
-        mockMvc.perform(put(requestURI).contentType("application/json").content(objectMapper.writeValueAsString(bookFormat)))
+        mockMvc.perform(put(requestURI)
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(bookFormatRequest)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }

@@ -54,4 +54,10 @@ public class Order {
         this.customer = customer;
         customer.addOrder(this);
     }
+
+    public void addTask(UserTask userTask) {
+        if (userTask != null) {
+            this.tasks.add(userTask);
+        }
+    }
 }

@@ -28,4 +28,10 @@ public class BookFormat {
     private List<Book> books;
 
     private boolean isDeleted = false;
+
+    public void addBook(Book book) {
+        if (book != null) {
+            this.books.add(book);
+        }
+    }
 }

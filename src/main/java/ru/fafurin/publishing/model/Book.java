@@ -45,6 +45,16 @@ public class Book {
 
     private boolean isDeleted = false;
 
+    public void setType(BookType type) {
+        this.type = type;
+        type.addBook(this);
+    }
+
+    public void setType(BookFormat format) {
+        this.format = format;
+        format.addBook(this);
+    }
+
     public void addFiles(List<BookFile> files) {
         this.files.addAll(files);
         for (BookFile file: files) {

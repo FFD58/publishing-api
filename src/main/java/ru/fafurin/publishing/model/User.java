@@ -2,7 +2,6 @@ package ru.fafurin.publishing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.util.List;
@@ -22,6 +21,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+    private boolean isDeleted = false;
 
     @Enumerated(EnumType.STRING)
     private Position position;
@@ -36,4 +36,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<UserTask> tasks;
+
+    public void addTask(UserTask userTask) {
+        if (userTask != null) {
+            this.tasks.add(userTask);
+        }
+    }
 }

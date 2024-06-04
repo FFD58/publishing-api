@@ -26,6 +26,7 @@ public class UserTask {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     private LocalDateTime finishedAt;
+    private boolean isDeleted = false;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
@@ -34,4 +35,15 @@ public class UserTask {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+        user.addTask(this);
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+        order.addTask(this);
+    }
+
 }

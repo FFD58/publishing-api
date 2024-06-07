@@ -17,10 +17,12 @@ public class CustomerRequest {
             example = "Иванов Иван Иванович")
     @NotNull
     private String name;
+
     @Schema(description = "Email",
             example = "ivanov@ivan.ru")
     @Email
     private String email;
+
     @Schema(description = "Номер телефона",
             example = "+71234567890")
     @NotNull

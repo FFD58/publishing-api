@@ -29,7 +29,6 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
-    private final FileGateway fileGateway;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех книгах")
@@ -63,14 +62,10 @@ public class BookController {
     @Operation(summary = "Сохранить новую книгу")
     public ResponseEntity<Book> save(
             @RequestBody @Valid BookRequest bookRequest) {
-        Book book = bookService.save(bookRequest);
 
-        String filename = book.getId() + "_" + book.getTitle() + "_" + LocalDateTime.now().getNano() + ".txt";
-        filename = filename.replace(" ", "_");
-        fileGateway.writeToFile(filename, String.valueOf(book));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(book);
+                .body(bookService.save(bookRequest));
     }
 
     @PutMapping("/{id}")

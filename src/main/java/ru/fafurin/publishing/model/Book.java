@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Book {
 
     @Id
@@ -50,7 +49,7 @@ public class Book {
         type.addBook(this);
     }
 
-    public void setType(BookFormat format) {
+    public void setFormat(BookFormat format) {
         this.format = format;
         format.addBook(this);
     }

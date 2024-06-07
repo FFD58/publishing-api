@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.OrderRequest;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.model.Order;
+import ru.fafurin.publishing.service.FileGateway;
 import ru.fafurin.publishing.service.OrderService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -27,6 +29,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final FileGateway fileGateway;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех заказах")
@@ -60,11 +63,17 @@ public class OrderController {
     @Operation(summary = "Сохранить новый заказ")
     public ResponseEntity<Order> save(
             @RequestBody @Valid OrderRequest orderRequest) {
-        Order book = orderService.save(orderRequest);
+        Order order = orderService.save(orderRequest);
 
+        String filename = order.getId() + "_"
+                + order.getBook().getTitle() + "_"
+                + LocalDateTime.now().getNano() + ".txt";
+
+        filename = filename.replace(" ", "_");
+        fileGateway.writeToFile(filename, String.valueOf(order));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(book);
+                .body(order);
     }
 
     @PutMapping("/{id}")

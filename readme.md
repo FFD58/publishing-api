@@ -2,5 +2,5 @@
 
 **Приложение предназначено для управления задачами сотрудников редакторского отдела и отдела оперативной полиграфии. В дальнейшем возможно внедрение приложения в работу других отделов издательства.**
 
-**Технологии:** Spring Boot, Spring Web, Spring Data, PostgreSQL, Actuator, Prometheus, Grafana
+**Технологии:** Spring Boot, Spring Web, Spring Data, Spring Security, Spring Integration, PostgreSQL, Actuator, Prometheus, Grafana
 

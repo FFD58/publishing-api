@@ -6,7 +6,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.fafurin.publishing.dto.JwtRequest;
+import ru.fafurin.publishing.dto.SignInRequest;
+import ru.fafurin.publishing.dto.SignUpRequest;
 import ru.fafurin.publishing.dto.JwtResponse;
 import ru.fafurin.publishing.model.Role;
 import ru.fafurin.publishing.model.User;
@@ -25,7 +26,7 @@ public class AuthenticationService {
      * @param request данные пользователя
      * @return токен
      */
-    public JwtResponse signUp(JwtRequest request) {
+    public JwtResponse signUp(SignUpRequest request) {
 
         User user = User.builder()
                 .username(request.getUsername())
@@ -46,7 +47,7 @@ public class AuthenticationService {
      * @param request данные пользователя
      * @return токен
      */
-    public JwtResponse signIn(JwtRequest request) {
+    public JwtResponse signIn(SignInRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getUsername(),
                 request.getPassword()

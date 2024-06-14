@@ -8,15 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.BookRequest;
 import ru.fafurin.publishing.exception.BookNotFoundException;
 import ru.fafurin.publishing.model.Book;
 import ru.fafurin.publishing.service.BookService;
-import ru.fafurin.publishing.service.FileGateway;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @AllArgsConstructor
@@ -58,6 +57,7 @@ public class BookController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новую книгу")
     public ResponseEntity<Book> save(
@@ -68,9 +68,10 @@ public class BookController {
                 .body(bookService.save(bookRequest));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить данные о книге по идентификатору")
-    public ResponseEntity<Book> updateBook(
+    public ResponseEntity<Book> update(
             @RequestBody @Valid BookRequest bookRequest,
             @Parameter(description = "Идентификатор") @PathVariable Long id) {
         try {
@@ -83,6 +84,7 @@ public class BookController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить книгу по идентификатору")
     public ResponseEntity<String> deleteBook(

@@ -2,11 +2,9 @@ package ru.fafurin.publishing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertFalse;
 import lombok.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "books")
@@ -56,7 +54,7 @@ public class Book {
 
     public void addFiles(List<BookFile> files) {
         this.files.addAll(files);
-        for (BookFile file: files) {
+        for (BookFile file : files) {
             file.setBook(this);
         }
     }

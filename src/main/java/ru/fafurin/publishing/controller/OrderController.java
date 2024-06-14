@@ -1,5 +1,7 @@
 package ru.fafurin.publishing.controller;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -8,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.OrderRequest;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
@@ -30,6 +33,8 @@ public class OrderController {
 
     private final OrderService orderService;
     private final FileGateway fileGateway;
+
+    private final Counter addOrderCounter = Metrics.counter("add_order_count");
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех заказах")
@@ -59,11 +64,14 @@ public class OrderController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новый заказ")
     public ResponseEntity<Order> save(
             @RequestBody @Valid OrderRequest orderRequest) {
         Order order = orderService.save(orderRequest);
+
+        addOrderCounter.increment();
 
         String filename = order.getId() + "_"
                 + order.getBook().getTitle() + "_"
@@ -76,6 +84,7 @@ public class OrderController {
                 .body(order);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить данные о заказе по идентификатору")
     public ResponseEntity<Order> updateOrder(
@@ -91,6 +100,7 @@ public class OrderController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить заказ по идентификатору")
     public ResponseEntity<String> deleteOrder(

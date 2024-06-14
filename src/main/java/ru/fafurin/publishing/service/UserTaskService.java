@@ -1,7 +1,6 @@
 package ru.fafurin.publishing.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.UserTaskRequest;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
@@ -28,6 +27,7 @@ public class UserTaskService {
 
     /**
      * Получить список всех задач
+     *
      * @return список всех задач
      */
     public List<UserTask> getAll() {
@@ -39,9 +39,10 @@ public class UserTaskService {
 
     /**
      * Получить задачу по идентификатору
+     *
      * @param id - идентификатор задачи
      * @return задачу или выбрасывается исключение,
-     *         если задача не найдена по идентификатору
+     * если задача не найдена по идентификатору
      */
     public UserTask get(Long id) {
         return userTaskRepository.findById(id)
@@ -50,6 +51,7 @@ public class UserTaskService {
 
     /**
      * Сохранить новую задачу
+     *
      * @param userTaskRequest - данные для сохранения новой задачи
      * @return сохраненная задача
      */
@@ -68,10 +70,11 @@ public class UserTaskService {
 
     /**
      * Изменить данные существующей задачи
-     * @param id - идентификатор задачи
+     *
+     * @param id              - идентификатор задачи
      * @param userTaskRequest - данные для изменения существующей задачи
      * @return - измененная задача или выбрасывается исключение,
-     *           если задача не найдена по идентификатору
+     * если задача не найдена по идентификатору
      */
     public UserTask update(Long id, UserTaskRequest userTaskRequest) {
         UserTask userTask = userTaskRepository.findById(id)
@@ -84,6 +87,7 @@ public class UserTaskService {
     /**
      * Безопасно удалить задачу по идентификатору,
      * т.е. задать значение true для поля IsDeleted
+     *
      * @param id - идентификатор задачи
      */
     public void delete(Long id) {

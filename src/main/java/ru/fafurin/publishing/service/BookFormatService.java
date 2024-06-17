@@ -2,7 +2,7 @@ package ru.fafurin.publishing.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.fafurin.publishing.dto.BookFormatRequest;
+import ru.fafurin.publishing.dto.request.BookFormatRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.mapper.BookFormatMapper;
 import ru.fafurin.publishing.model.BookFormat;

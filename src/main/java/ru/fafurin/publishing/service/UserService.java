@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.fafurin.publishing.dto.SignUpRequest;
+import ru.fafurin.publishing.dto.request.SignUpRequest;
 import ru.fafurin.publishing.exception.UserNotFoundException;
 import ru.fafurin.publishing.mapper.UserMapper;
 import ru.fafurin.publishing.model.User;

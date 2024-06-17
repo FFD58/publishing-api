@@ -2,7 +2,7 @@ package ru.fafurin.publishing.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.fafurin.publishing.dto.BookRequest;
+import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.exception.BookNotFoundException;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
@@ -61,12 +61,12 @@ public class BookService {
 
         Book book = new Book();
 
-        Long typeId = bookRequest.getBookTypeId();
+        Long typeId = bookRequest.getTypeId();
         BookType bookType = bookTypeRepository.findById(typeId)
                 .orElseThrow(() -> new BookTypeNotFoundException(typeId));
         book.setType(bookType);
 
-        Long formatId = bookRequest.getBookFormatId();
+        Long formatId = bookRequest.getFormatId();
         BookFormat bookFormat = bookFormatRepository.findById(formatId)
                 .orElseThrow(() -> new BookFormatNotFoundException(formatId));
         book.setFormat(bookFormat);

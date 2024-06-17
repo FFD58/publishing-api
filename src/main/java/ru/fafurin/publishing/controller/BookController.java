@@ -8,9 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.fafurin.publishing.dto.BookRequest;
+import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.exception.BookNotFoundException;
 import ru.fafurin.publishing.model.Book;
 import ru.fafurin.publishing.service.BookService;
@@ -57,7 +56,7 @@ public class BookController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новую книгу")
     public ResponseEntity<Book> save(
@@ -68,7 +67,7 @@ public class BookController {
                 .body(bookService.save(bookRequest));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить данные о книге по идентификатору")
     public ResponseEntity<Book> update(
@@ -84,7 +83,7 @@ public class BookController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить книгу по идентификатору")
     public ResponseEntity<String> deleteBook(

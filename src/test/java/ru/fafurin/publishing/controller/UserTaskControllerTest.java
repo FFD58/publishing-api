@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.fafurin.publishing.dto.UserTaskRequest;
+import ru.fafurin.publishing.dto.request.UserTaskRequest;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
 import ru.fafurin.publishing.model.Order;
 import ru.fafurin.publishing.model.User;

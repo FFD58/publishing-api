@@ -2,7 +2,7 @@ package ru.fafurin.publishing.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.fafurin.publishing.dto.CustomerRequest;
+import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
 import ru.fafurin.publishing.mapper.CustomerMapper;
 import ru.fafurin.publishing.model.Customer;

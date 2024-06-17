@@ -1,6 +1,6 @@
 package ru.fafurin.publishing.mapper;
 
-import ru.fafurin.publishing.dto.SignUpRequest;
+import ru.fafurin.publishing.dto.request.SignUpRequest;
 import ru.fafurin.publishing.model.User;
 
 public class UserMapper {

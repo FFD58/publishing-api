@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.fafurin.publishing.dto.CustomerRequest;
+import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
 import ru.fafurin.publishing.model.Customer;
 import ru.fafurin.publishing.repository.CustomerRepository;

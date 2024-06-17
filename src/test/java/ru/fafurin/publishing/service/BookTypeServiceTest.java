@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.fafurin.publishing.dto.BookTypeRequest;
+import ru.fafurin.publishing.dto.request.BookTypeRequest;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.model.BookType;
 import ru.fafurin.publishing.repository.BookTypeRepository;

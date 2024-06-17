@@ -11,9 +11,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.fafurin.publishing.dto.BookRequest;
-import ru.fafurin.publishing.dto.CustomerRequest;
-import ru.fafurin.publishing.dto.OrderRequest;
+import ru.fafurin.publishing.dto.request.BookRequest;
+import ru.fafurin.publishing.dto.request.CustomerRequest;
+import ru.fafurin.publishing.dto.request.OrderRequest;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.model.*;
 import ru.fafurin.publishing.service.OrderService;
@@ -57,8 +57,8 @@ public class OrderControllerTest {
                 .build();
         BookRequest bookRequest = BookRequest.builder()
                 .title("Test Book")
-                .bookTypeId(1L)
-                .bookFormatId(1L)
+                .typeId(1L)
+                .formatId(1L)
                 .authors(List.of("Test Author"))
                 .files(List.of("test.file"))
                 .build();

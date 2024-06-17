@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.fafurin.publishing.dto.UserTaskRequest;
+import ru.fafurin.publishing.dto.request.UserTaskRequest;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
 import ru.fafurin.publishing.model.Order;
 import ru.fafurin.publishing.model.User;

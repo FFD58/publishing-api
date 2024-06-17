@@ -2,7 +2,8 @@ package ru.fafurin.publishing.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.fafurin.publishing.dto.OrderRequest;
+import ru.fafurin.publishing.dto.request.OrderRequest;
+import ru.fafurin.publishing.dto.response.OrderResponse;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.mapper.OrderMapper;
 import ru.fafurin.publishing.model.Book;
@@ -26,10 +27,12 @@ public class OrderService {
      * Получить список всех заказов
      * @return список всех заказов
      */
-    public List<Order> getAll() {
+    public List<OrderResponse> getAll() {
         List<Order> orders = orderRepository.findAll();
+
         return orders.stream()
                 .filter(b -> !b.isDeleted())
+                .map(OrderMapper::getOrderResponse)
                 .collect(Collectors.toList());
     }
 

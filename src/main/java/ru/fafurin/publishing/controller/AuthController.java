@@ -4,21 +4,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.fafurin.publishing.dto.JwtResponse;
-import ru.fafurin.publishing.dto.SignInRequest;
-import ru.fafurin.publishing.dto.SignUpRequest;
-import ru.fafurin.publishing.service.AuthenticationService;
+import org.springframework.web.bind.annotation.*;
+import ru.fafurin.publishing.dto.request.JwtResponse;
+import ru.fafurin.publishing.dto.request.SignInRequest;
+import ru.fafurin.publishing.dto.request.SignUpRequest;
+import ru.fafurin.publishing.service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Аутентификация")
 public class AuthController {
-    private final AuthenticationService authenticationService;
+    private final AuthService authenticationService;
 
     @Operation(summary = "Регистрация пользователя")
     @PostMapping("/sign-up")
@@ -29,6 +26,12 @@ public class AuthController {
     @Operation(summary = "Авторизация пользователя")
     @PostMapping("/sign-in")
     public JwtResponse signIn(@RequestBody @Valid SignInRequest request) {
+        return authenticationService.signIn(request);
+    }
+
+    @Operation(summary = "Обновление токена")
+    @PostMapping("/refresh")
+    public JwtResponse refreshToken(@RequestBody @Valid SignInRequest request) {
         return authenticationService.signIn(request);
     }
 }

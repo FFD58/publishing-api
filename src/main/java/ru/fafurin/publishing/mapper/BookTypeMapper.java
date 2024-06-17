@@ -1,6 +1,6 @@
 package ru.fafurin.publishing.mapper;
 
-import ru.fafurin.publishing.dto.BookTypeRequest;
+import ru.fafurin.publishing.dto.request.BookTypeRequest;
 import ru.fafurin.publishing.model.BookType;
 
 public class BookTypeMapper {

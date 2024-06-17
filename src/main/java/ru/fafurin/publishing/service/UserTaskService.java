@@ -2,7 +2,7 @@ package ru.fafurin.publishing.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.fafurin.publishing.dto.UserTaskRequest;
+import ru.fafurin.publishing.dto.request.UserTaskRequest;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
 import ru.fafurin.publishing.mapper.UserTaskMapper;
 import ru.fafurin.publishing.model.Order;

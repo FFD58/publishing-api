@@ -10,15 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.fafurin.publishing.dto.BookTypeRequest;
+import ru.fafurin.publishing.dto.request.BookTypeRequest;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.model.BookType;
 import ru.fafurin.publishing.service.BookTypeService;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/books/types")
@@ -61,7 +61,7 @@ public class BookTypeController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новый тип книги")
     public ResponseEntity<BookType> save(
@@ -73,7 +73,7 @@ public class BookTypeController {
                 .body(bookTypeService.save(bookTypeRequest));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить тип книги по идентификатору")
     public ResponseEntity<BookType> updateBookType(
@@ -89,7 +89,7 @@ public class BookTypeController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить тип книги по идентификатору")
     public ResponseEntity<String> deleteBookType(

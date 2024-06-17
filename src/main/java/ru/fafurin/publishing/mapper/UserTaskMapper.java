@@ -1,6 +1,6 @@
 package ru.fafurin.publishing.mapper;
 
-import ru.fafurin.publishing.dto.UserTaskRequest;
+import ru.fafurin.publishing.dto.request.UserTaskRequest;
 import ru.fafurin.publishing.model.UserTask;
 
 public class UserTaskMapper {

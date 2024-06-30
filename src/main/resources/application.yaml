@@ -14,8 +14,12 @@ spring:
     password: somepass
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
+  flyway:
+    locations: classpath:migrations
+    url: jdbc:postgresql://localhost:5432/publishing
+    password: somepass
+    user: someuser
 
 springdoc:
   show-actuator: false

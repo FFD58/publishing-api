@@ -11,5 +11,5 @@ public class BookResponse {
     private String title;
     private String type;
     private String format;
-    private List<String> authors;
+    private String authors;
 }

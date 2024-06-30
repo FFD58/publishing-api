@@ -5,13 +5,13 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserTaskResponse {
+public class UserTaskAllInfoResponse {
     private Long id;
     private String title;
     private String status;
-    private String username;
-    private Integer orderNumber;
     private Long createdAt;
     private Long updatedAt;
     private Long finishedAt;
+    private OrderResponse order;
+    private UserResponse user;
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.SignUpRequest;
 import ru.fafurin.publishing.exception.UserNotFoundException;
 import ru.fafurin.publishing.mapper.UserMapper;
-import ru.fafurin.publishing.model.User;
+import ru.fafurin.publishing.entity.User;
 import ru.fafurin.publishing.repository.UserRepository;
 
 import java.util.List;

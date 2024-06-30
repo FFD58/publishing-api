@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.exception.BookNotFoundException;
-import ru.fafurin.publishing.model.Book;
+import ru.fafurin.publishing.entity.Book;
 import ru.fafurin.publishing.service.BookService;
 
 import java.util.*;

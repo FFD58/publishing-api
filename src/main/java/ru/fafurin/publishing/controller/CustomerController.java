@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
-import ru.fafurin.publishing.model.Customer;
+import ru.fafurin.publishing.entity.Customer;
 import ru.fafurin.publishing.service.CustomerService;
 
 import java.util.List;

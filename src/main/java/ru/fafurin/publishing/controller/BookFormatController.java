@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.BookFormatRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
-import ru.fafurin.publishing.model.BookFormat;
+import ru.fafurin.publishing.entity.BookFormat;
 import ru.fafurin.publishing.service.BookFormatService;
 
 import java.util.List;

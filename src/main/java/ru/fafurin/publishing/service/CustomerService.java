@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
 import ru.fafurin.publishing.mapper.CustomerMapper;
-import ru.fafurin.publishing.model.Customer;
+import ru.fafurin.publishing.entity.Customer;
 import ru.fafurin.publishing.repository.CustomerRepository;
 
 import java.util.List;

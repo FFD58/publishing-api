@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.BookTypeRequest;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
-import ru.fafurin.publishing.model.BookType;
+import ru.fafurin.publishing.entity.BookType;
 import ru.fafurin.publishing.service.BookTypeService;
 
 import java.util.List;

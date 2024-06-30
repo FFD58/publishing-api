@@ -1,18 +1,23 @@
 package ru.fafurin.publishing.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.UserTaskRequest;
+import ru.fafurin.publishing.dto.response.UserTaskAllInfoResponse;
+import ru.fafurin.publishing.dto.response.UserTaskResponse;
+import ru.fafurin.publishing.exception.UserNotFoundException;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
 import ru.fafurin.publishing.mapper.UserTaskMapper;
-import ru.fafurin.publishing.model.Order;
-import ru.fafurin.publishing.model.Status;
-import ru.fafurin.publishing.model.User;
-import ru.fafurin.publishing.model.UserTask;
+import ru.fafurin.publishing.entity.Order;
+import ru.fafurin.publishing.entity.Status;
+import ru.fafurin.publishing.entity.User;
+import ru.fafurin.publishing.entity.UserTask;
 import ru.fafurin.publishing.repository.OrderRepository;
 import ru.fafurin.publishing.repository.UserRepository;
 import ru.fafurin.publishing.repository.UserTaskRepository;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,27 +31,51 @@ public class UserTaskService {
     private final UserRepository userRepository;
 
     /**
-     * Получить список всех задач
+     * Получить список всех задач, отсортированных по дате изменения
      *
-     * @return список всех задач
+     * @return список всех задач, отсортированных по дате изменения
      */
-    public List<UserTask> getAll() {
-        List<UserTask> userTasks = userTaskRepository.findAll();
+    public List<UserTaskResponse> getAll() {
+        List<UserTask> userTasks = userTaskRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedAt"));
         return userTasks.stream()
-                .filter(b -> !b.isDeleted())
+                .filter(t -> !t.isDeleted())
+                .map(UserTaskMapper::getUserTaskResponse)
                 .collect(Collectors.toList());
     }
 
     /**
-     * Получить задачу по идентификатору
+     * Получить полную информацию о задаче по идентификатору
      *
      * @param id - идентификатор задачи
-     * @return задачу или выбрасывается исключение,
+     * @return полная информация о задаче или выбрасывается исключение,
      * если задача не найдена по идентификатору
      */
-    public UserTask get(Long id) {
-        return userTaskRepository.findById(id)
-                .orElseThrow(() -> new UserTaskNotFoundException(id));
+    public UserTaskAllInfoResponse get(Long id) {
+        Optional<UserTask> userTaskOptional = userTaskRepository.findById(id);
+        if (userTaskOptional.isPresent()) {
+            return UserTaskMapper.getUserTaskAllInfoResponse(userTaskOptional.get());
+        } else throw new UserTaskNotFoundException(id);
+    }
+
+
+    /**
+     * Получить список задач залогиненного пользователя
+     *
+     * @param principal - объект представляющий доступ к данным залогиненного пользователя
+     * @return - список задач залогиненного пользователя
+     */
+    public List<UserTaskResponse> getAllByUser(Principal principal) {
+        Optional<User> userOptional = userRepository.findByUsername(principal.getName());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            List<UserTask> tasks = user.getTasks();
+            return tasks.stream()
+                    .filter(t -> !t.isDeleted())
+                    .map(UserTaskMapper::getUserTaskResponse)
+                    .collect(Collectors.toList());
+        } else {
+            throw new UserNotFoundException(principal.getName());
+        }
     }
 
     /**
@@ -97,4 +126,10 @@ public class UserTaskService {
         userTaskRepository.save(userTask);
     }
 
+    public void complete(Long id) {
+        UserTask userTask = userTaskRepository.findById(id)
+                .orElseThrow(() -> new UserTaskNotFoundException(id));
+        userTask.setStatus(Status.COMPLETED);
+        userTaskRepository.save(userTask);
+    }
 }

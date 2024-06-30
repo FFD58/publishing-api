@@ -10,13 +10,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.UserTaskRequest;
+import ru.fafurin.publishing.dto.response.UserTaskAllInfoResponse;
+import ru.fafurin.publishing.dto.response.UserTaskResponse;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
-import ru.fafurin.publishing.model.UserTask;
+import ru.fafurin.publishing.entity.UserTask;
 import ru.fafurin.publishing.service.UserTaskService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -34,8 +36,23 @@ public class UserTaskController {
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех задачах сотрудников")
-    public ResponseEntity<List<UserTask>> list() {
-        List<UserTask> userTasks = userTaskService.getAll();
+    public ResponseEntity<List<UserTaskResponse>> list() {
+        List<UserTaskResponse> userTasks = userTaskService.getAll();
+        if (userTasks.isEmpty()) {
+            log.info(String.valueOf(HttpStatus.NO_CONTENT));
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .build();
+        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userTasks);
+    }
+
+    @GetMapping("/current-user")
+    @Operation(summary = "Получить информацию обо всех задачах залогиненного сотрудника")
+    public ResponseEntity<List<UserTaskResponse>> getCurrentUserTasks(Principal principal) {
+        List<UserTaskResponse> userTasks = userTaskService.getAllByUser(principal);
         if (userTasks.isEmpty()) {
             log.info(String.valueOf(HttpStatus.NO_CONTENT));
             return ResponseEntity
@@ -49,7 +66,7 @@ public class UserTaskController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Получить информацию о задаче по идентификатору")
-    public ResponseEntity<UserTask> get(@PathVariable("id") Long id) {
+    public ResponseEntity<UserTaskAllInfoResponse> get(@PathVariable("id") Long id) {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -60,7 +77,21 @@ public class UserTaskController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/complete/{id}")
+    @Operation(summary = "Завершить задачу по идентификатору")
+    public ResponseEntity<String> complete(@PathVariable("id") Long id) {
+        try {
+            userTaskService.complete(id);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("Задача успешно выполнена");
+        } catch (UserTaskNotFoundException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новую задачу")
     public ResponseEntity<UserTask> save(
@@ -73,7 +104,7 @@ public class UserTaskController {
                 .body(userTaskService.save(userTaskRequest));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить задачу по идентификатору")
     public ResponseEntity<UserTask> updateUserTask(
@@ -89,7 +120,7 @@ public class UserTaskController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить задачу по идентификатору")
     public ResponseEntity<String> deleteUserTask(

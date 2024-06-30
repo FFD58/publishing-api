@@ -10,12 +10,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.OrderRequest;
+import ru.fafurin.publishing.dto.response.OrderAllInfoResponse;
 import ru.fafurin.publishing.dto.response.OrderResponse;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
-import ru.fafurin.publishing.model.Order;
+import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.service.FileGateway;
 import ru.fafurin.publishing.service.OrderService;
 
@@ -39,9 +39,12 @@ public class OrderController {
     private final Counter addOrderCounter = Metrics.counter("add_order_count");
 
     @GetMapping
-    @Operation(summary = "Получить информацию обо всех заказах")
-    public ResponseEntity<List<OrderResponse>> list() {
-        List<OrderResponse> orders = orderService.getAll();
+    @Operation(summary = "Получить информацию обо всех заказах со статусом AWAIT")
+    public ResponseEntity<List<OrderResponse>> listAwaitingOrders() {
+        List<OrderResponse> orders = orderService.getAwaitingOrders();
+
+        System.out.println(orders);
+
         if (orders.isEmpty()) {
             log.info(String.valueOf(HttpStatus.NO_CONTENT));
             return ResponseEntity
@@ -54,8 +57,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Получить информацию о заказе по идентификатору")
-    public ResponseEntity<Order> get(@PathVariable("id") Long id) {
+    @Operation(summary = "Получить полную информацию о заказе по идентификатору")
+    public ResponseEntity<OrderAllInfoResponse> get(@PathVariable("id") Long id) {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)

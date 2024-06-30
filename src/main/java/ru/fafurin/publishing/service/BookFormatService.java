@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.BookFormatRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.mapper.BookFormatMapper;
-import ru.fafurin.publishing.model.BookFormat;
+import ru.fafurin.publishing.entity.BookFormat;
 import ru.fafurin.publishing.repository.BookFormatRepository;
 
 import java.util.List;

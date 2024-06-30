@@ -1,6 +1,6 @@
 package ru.fafurin.publishing.mapper;
 
-import ru.fafurin.publishing.model.BookFile;
+import ru.fafurin.publishing.entity.BookFile;
 
 public class BookFileMapper {
 

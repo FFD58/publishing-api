@@ -2,7 +2,7 @@ package ru.fafurin.publishing.mapper;
 
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.dto.response.CustomerResponse;
-import ru.fafurin.publishing.model.Customer;
+import ru.fafurin.publishing.entity.Customer;
 
 public class CustomerMapper {
 

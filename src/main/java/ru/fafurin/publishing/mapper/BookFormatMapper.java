@@ -1,7 +1,7 @@
 package ru.fafurin.publishing.mapper;
 
 import ru.fafurin.publishing.dto.request.BookFormatRequest;
-import ru.fafurin.publishing.model.BookFormat;
+import ru.fafurin.publishing.entity.BookFormat;
 
 public class BookFormatMapper {
     public static BookFormat getBookFormat(BookFormat bookFormat, BookFormatRequest bookFormatRequest) {

@@ -1,4 +1,4 @@
-package ru.fafurin.publishing.model;
+package ru.fafurin.publishing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

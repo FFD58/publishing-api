@@ -1,10 +1,8 @@
-package ru.fafurin.publishing.model;
+package ru.fafurin.publishing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertFalse;
 import lombok.*;
-import org.aspectj.weaver.ast.Or;
 
 import java.util.List;
 

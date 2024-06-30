@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.exception.BookNotFoundException;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
-import ru.fafurin.publishing.model.*;
+import ru.fafurin.publishing.entity.*;
 import ru.fafurin.publishing.service.BookService;
 
 import java.util.ArrayList;

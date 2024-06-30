@@ -13,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.fafurin.publishing.dto.request.BookFormatRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
-import ru.fafurin.publishing.model.BookFormat;
+import ru.fafurin.publishing.entity.BookFormat;
 import ru.fafurin.publishing.service.BookFormatService;
 
 import java.util.ArrayList;

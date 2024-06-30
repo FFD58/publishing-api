@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.exception.BookNotFoundException;
-import ru.fafurin.publishing.model.*;
+import ru.fafurin.publishing.entity.*;
 import ru.fafurin.publishing.repository.BookFormatRepository;
 import ru.fafurin.publishing.repository.BookRepository;
 import ru.fafurin.publishing.repository.BookTypeRepository;

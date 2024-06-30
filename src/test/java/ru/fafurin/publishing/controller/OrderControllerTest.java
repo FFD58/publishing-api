@@ -15,7 +15,7 @@ import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.dto.request.OrderRequest;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
-import ru.fafurin.publishing.model.*;
+import ru.fafurin.publishing.entity.*;
 import ru.fafurin.publishing.service.OrderService;
 
 import java.time.LocalDateTime;

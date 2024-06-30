@@ -12,10 +12,10 @@ import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.dto.request.OrderRequest;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
-import ru.fafurin.publishing.model.Book;
-import ru.fafurin.publishing.model.Customer;
-import ru.fafurin.publishing.model.Order;
-import ru.fafurin.publishing.model.Status;
+import ru.fafurin.publishing.entity.Book;
+import ru.fafurin.publishing.entity.Customer;
+import ru.fafurin.publishing.entity.Order;
+import ru.fafurin.publishing.entity.Status;
 import ru.fafurin.publishing.repository.OrderRepository;
 
 import java.time.LocalDateTime;

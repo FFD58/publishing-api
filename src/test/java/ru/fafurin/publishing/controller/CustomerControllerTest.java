@@ -13,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
-import ru.fafurin.publishing.model.Customer;
+import ru.fafurin.publishing.entity.Customer;
 import ru.fafurin.publishing.service.CustomerService;
 
 import java.util.ArrayList;

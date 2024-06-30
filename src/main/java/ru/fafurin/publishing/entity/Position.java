@@ -1,4 +1,4 @@
-package ru.fafurin.publishing.model;
+package ru.fafurin.publishing.entity;
 
 public enum Position {
 

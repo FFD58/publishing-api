@@ -2,8 +2,8 @@ package ru.fafurin.publishing.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.fafurin.publishing.model.Order;
-import ru.fafurin.publishing.model.Status;
+import ru.fafurin.publishing.entity.Order;
+import ru.fafurin.publishing.entity.Status;
 
 import java.util.List;
 @Repository

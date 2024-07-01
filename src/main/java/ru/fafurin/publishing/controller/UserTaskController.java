@@ -10,13 +10,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.UserTaskRequest;
 import ru.fafurin.publishing.dto.response.UserTaskAllInfoResponse;
 import ru.fafurin.publishing.dto.response.UserTaskResponse;
-import ru.fafurin.publishing.exception.UserTaskNotFoundException;
 import ru.fafurin.publishing.entity.UserTask;
-import ru.fafurin.publishing.service.UserTaskService;
+import ru.fafurin.publishing.exception.UserTaskNotFoundException;
+import ru.fafurin.publishing.service.UserTaskServiceContract;
 
 import java.security.Principal;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
 )
 public class UserTaskController {
 
-    private final UserTaskService userTaskService;
+    private final UserTaskServiceContract userTaskService;
     private final Counter addTaskCounter = Metrics.counter("add_task_count");
 
     @GetMapping
@@ -91,7 +92,7 @@ public class UserTaskController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новую задачу")
     public ResponseEntity<UserTask> save(
@@ -104,7 +105,7 @@ public class UserTaskController {
                 .body(userTaskService.save(userTaskRequest));
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить задачу по идентификатору")
     public ResponseEntity<UserTask> updateUserTask(
@@ -120,7 +121,7 @@ public class UserTaskController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить задачу по идентификатору")
     public ResponseEntity<String> deleteUserTask(

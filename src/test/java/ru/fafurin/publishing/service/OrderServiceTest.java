@@ -85,7 +85,7 @@ public class OrderServiceTest {
     public void Save_ReturnsOrder() {
         when(orderRepository.save(Mockito.any(Order.class))).thenReturn(order);
         when(bookService.save(Mockito.any(BookRequest.class))).thenReturn(Mockito.mock(Book.class));
-        when(customerService.saveIfNotExists(Mockito.any(CustomerRequest.class))).thenReturn(Mockito.mock(Customer.class));
+        when(customerService.save(Mockito.any(CustomerRequest.class))).thenReturn(Mockito.mock(Customer.class));
         Assertions.assertNotNull(service.save(orderRequest));
     }
 

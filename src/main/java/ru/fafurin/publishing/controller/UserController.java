@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.fafurin.publishing.exception.UserNotFoundException;
 import ru.fafurin.publishing.entity.User;
 import ru.fafurin.publishing.service.UserService;
+import ru.fafurin.publishing.service.UserServiceContract;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceContract userService;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех сотрудниках")

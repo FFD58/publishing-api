@@ -15,6 +15,7 @@ import ru.fafurin.publishing.dto.request.BookTypeRequest;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.entity.BookType;
 import ru.fafurin.publishing.service.BookTypeService;
+import ru.fafurin.publishing.service.BookTypeServiceContract;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ import java.util.List;
 public class BookTypeController {
 
     @Autowired
-    private BookTypeService bookTypeService;
+    private BookTypeServiceContract bookTypeService;
 
     private final Counter addTypeCounter = Metrics.counter("add_type_count");
 

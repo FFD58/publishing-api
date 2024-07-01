@@ -14,7 +14,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtService implements JwtServiceContract {
+
     @Value("${token.key}")
     private String jwtKey;
 

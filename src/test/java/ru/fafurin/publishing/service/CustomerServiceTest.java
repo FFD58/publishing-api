@@ -73,7 +73,7 @@ public class CustomerServiceTest {
     public void Save_ReturnsCustomer() {
         when(repository.save(Mockito.any(Customer.class))).thenReturn(customer);
 
-        Assertions.assertNotNull(service.saveIfNotExists(customerRequest));
+        Assertions.assertNotNull(service.save(customerRequest));
     }
 
     /**

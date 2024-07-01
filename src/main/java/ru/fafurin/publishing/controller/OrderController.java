@@ -10,14 +10,15 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.OrderRequest;
 import ru.fafurin.publishing.dto.response.OrderAllInfoResponse;
 import ru.fafurin.publishing.dto.response.OrderResponse;
-import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.entity.Order;
+import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.service.FileGateway;
-import ru.fafurin.publishing.service.OrderService;
+import ru.fafurin.publishing.service.OrderServiceContract;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.List;
 )
 public class OrderController {
 
-    private final OrderService orderService;
+    private final OrderServiceContract orderService;
     private final FileGateway fileGateway;
 
     private final Counter addOrderCounter = Metrics.counter("add_order_count");
@@ -69,7 +70,7 @@ public class OrderController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новый заказ")
     public ResponseEntity<Order> save(
@@ -92,7 +93,7 @@ public class OrderController {
                 .body(order);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить данные о заказе по идентификатору")
     public ResponseEntity<Order> updateOrder(
@@ -108,7 +109,7 @@ public class OrderController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить заказ по идентификатору")
     public ResponseEntity<String> deleteOrder(

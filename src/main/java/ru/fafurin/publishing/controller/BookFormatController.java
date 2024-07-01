@@ -13,6 +13,7 @@ import ru.fafurin.publishing.dto.request.BookFormatRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.entity.BookFormat;
 import ru.fafurin.publishing.service.BookFormatService;
+import ru.fafurin.publishing.service.BookFormatServiceContract;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
 public class BookFormatController {
 
     @Autowired
-    private BookFormatService bookFormatService;
+    private BookFormatServiceContract bookFormatService;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех книжных форматах")

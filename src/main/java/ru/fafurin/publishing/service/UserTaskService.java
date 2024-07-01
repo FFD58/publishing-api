@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserTaskService {
+public class UserTaskService implements UserTaskServiceContract {
 
     private final UserTaskRepository userTaskRepository;
     private final OrderRepository orderRepository;
@@ -35,6 +35,7 @@ public class UserTaskService {
      *
      * @return список всех задач, отсортированных по дате изменения
      */
+    @Override
     public List<UserTaskResponse> getAll() {
         List<UserTask> userTasks = userTaskRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedAt"));
         return userTasks.stream()
@@ -50,6 +51,7 @@ public class UserTaskService {
      * @return полная информация о задаче или выбрасывается исключение,
      * если задача не найдена по идентификатору
      */
+    @Override
     public UserTaskAllInfoResponse get(Long id) {
         Optional<UserTask> userTaskOptional = userTaskRepository.findById(id);
         if (userTaskOptional.isPresent()) {
@@ -64,6 +66,7 @@ public class UserTaskService {
      * @param principal - объект представляющий доступ к данным залогиненного пользователя
      * @return - список задач залогиненного пользователя
      */
+    @Override
     public List<UserTaskResponse> getAllByUser(Principal principal) {
         Optional<User> userOptional = userRepository.findByUsername(principal.getName());
         if (userOptional.isPresent()) {
@@ -84,6 +87,7 @@ public class UserTaskService {
      * @param userTaskRequest - данные для сохранения новой задачи
      * @return сохраненная задача
      */
+    @Override
     public UserTask save(UserTaskRequest userTaskRequest) {
         UserTask userTask = UserTaskMapper.getUserTask(new UserTask(), userTaskRequest);
 
@@ -105,6 +109,7 @@ public class UserTaskService {
      * @return - измененная задача или выбрасывается исключение,
      * если задача не найдена по идентификатору
      */
+    @Override
     public UserTask update(Long id, UserTaskRequest userTaskRequest) {
         UserTask userTask = userTaskRepository.findById(id)
                 .orElseThrow(() -> new UserTaskNotFoundException(id));
@@ -119,6 +124,7 @@ public class UserTaskService {
      *
      * @param id - идентификатор задачи
      */
+    @Override
     public void delete(Long id) {
         UserTask userTask = userTaskRepository.findById(id)
                 .orElseThrow(() -> new UserTaskNotFoundException(id));
@@ -126,6 +132,7 @@ public class UserTaskService {
         userTaskRepository.save(userTask);
     }
 
+    @Override
     public void complete(Long id) {
         UserTask userTask = userTaskRepository.findById(id)
                 .orElseThrow(() -> new UserTaskNotFoundException(id));

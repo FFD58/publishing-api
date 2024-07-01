@@ -8,11 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
 import ru.fafurin.publishing.entity.Customer;
 import ru.fafurin.publishing.service.CustomerService;
+import ru.fafurin.publishing.service.CustomerServiceContract;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    private CustomerService customerService;
+    private CustomerServiceContract customerService;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех заказчиках")
@@ -56,17 +58,17 @@ public class CustomerController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить нового заказчика")
     public ResponseEntity<Customer> save(
             @RequestBody @Valid CustomerRequest customerRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(customerService.saveIfNotExists(customerRequest));
+                .body(customerService.save(customerRequest));
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить заказчика по идентификатору")
     public ResponseEntity<Customer> updateCustomer(
@@ -82,7 +84,7 @@ public class CustomerController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить заказчика по идентификатору")
     public ResponseEntity<String> deleteCustomer(

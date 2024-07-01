@@ -18,9 +18,9 @@ import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
-    private final UserService userService;
-    private final JwtService jwtService;
+public class AuthService implements AuthServiceContract {
+    private final UserServiceContract userService;
+    private final JwtServiceContract jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 

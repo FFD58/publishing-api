@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerService {
+public class CustomerService implements CustomerServiceContract {
 
     @Autowired
     private CustomerRepository repository;
@@ -45,7 +45,7 @@ public class CustomerService {
      * @param customerRequest - данные заказчика
      * @return новый или существующий заказчик
      */
-    public Customer saveIfNotExists(CustomerRequest customerRequest) {
+    public Customer save(CustomerRequest customerRequest) {
         Customer customer = CustomerMapper.getCustomer(new Customer(), customerRequest);
         return checkCustomerExisting(customer);
     }

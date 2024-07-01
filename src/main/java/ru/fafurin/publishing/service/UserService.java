@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-public class UserService {
+public class UserService implements UserServiceContract {
 
     @Autowired
     private UserRepository repository;
@@ -40,6 +40,7 @@ public class UserService {
      * @return сотрудник или выбрасывается исключение,
      * если сотрудник не найден по идентификатору
      */
+    @Override
     public User get(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
@@ -64,22 +65,6 @@ public class UserService {
     public User getByUsername(String username) {
         return repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
-    }
-
-    /**
-     * Изменить данные существующего сотрудника
-     *
-     * @param id          - идентификатор сотрудника
-     * @param userRequest - данные для изменения существующего сотрудника
-     * @return - измененный сотрудник или выбрасывается исключение,
-     * если сотрудник не найден по идентификатору
-     */
-    public User update(Long id, SignUpRequest userRequest) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
-
-        return repository.save(
-                UserMapper.getUser(user, userRequest));
     }
 
     /**

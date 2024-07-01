@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class OrderService {
+public class OrderService implements OrderServiceContract {
 
     private final OrderRepository orderRepository;
     private final BookService bookService;
@@ -65,7 +65,7 @@ public class OrderService {
         Order order = OrderMapper.getOrder(new Order(), orderRequest);
 
         Book book = bookService.save(orderRequest.getBook());
-        Customer customer = customerService.saveIfNotExists(orderRequest.getCustomer());
+        Customer customer = customerService.save(orderRequest.getCustomer());
         order.setBook(book);
         order.setCustomer(customer);
         order.setStatus(Status.AWAIT);

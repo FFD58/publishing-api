@@ -65,7 +65,7 @@ public class CustomerControllerTest {
      */
     @Test
     public void Save_Returns201Created() throws Exception {
-        when(service.saveIfNotExists(customerRequest)).thenReturn(customer);
+        when(service.save(customerRequest)).thenReturn(customer);
 
         mockMvc.perform(post(END_POINT_PATH).contentType("application/json")
                         .content(objectMapper.writeValueAsString(customerRequest)))

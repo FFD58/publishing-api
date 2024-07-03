@@ -22,6 +22,7 @@ public class UserTask {
     private String title;
     @Enumerated(EnumType.STRING)
     private Status status;
+    private String comment;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
@@ -47,4 +48,13 @@ public class UserTask {
         order.addTask(this);
     }
 
+    @Override
+    public String toString() {
+        return  "title='" + title + '\'' +
+                ", status=" + status +
+                ", comment='" + comment + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", finishedAt=" + finishedAt;
+    }
 }

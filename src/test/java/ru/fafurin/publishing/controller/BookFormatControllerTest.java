@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.fafurin.publishing.dto.request.BookFormatRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.entity.BookFormat;
-import ru.fafurin.publishing.service.BookFormatService;
+import ru.fafurin.publishing.service.impl.BookFormatServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class BookFormatControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
-    private BookFormatService service;
+    private BookFormatServiceImpl service;
     private BookFormat bookFormat;
     private BookFormatRequest bookFormatRequest;
     private String requestURI;

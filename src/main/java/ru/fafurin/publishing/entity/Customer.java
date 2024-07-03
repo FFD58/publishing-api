@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,9 @@ public class Customer {
 
     public void addOrder(Order order) {
         if (order != null) {
+            if (orders == null) {
+                orders = new ArrayList<>();
+            }
             orders.add(order);
         }
     }

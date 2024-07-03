@@ -17,6 +17,9 @@ import ru.fafurin.publishing.entity.Customer;
 import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.entity.Status;
 import ru.fafurin.publishing.repository.OrderRepository;
+import ru.fafurin.publishing.service.impl.BookServiceImpl;
+import ru.fafurin.publishing.service.impl.CustomerServiceImpl;
+import ru.fafurin.publishing.service.impl.OrderServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,14 +31,14 @@ import static org.mockito.Mockito.when;
 public class OrderServiceTest {
 
     @InjectMocks
-    private OrderService service;
+    private OrderServiceImpl service;
 
     @Mock
     private OrderRepository orderRepository;
     @Mock
-    private BookService bookService;
+    private BookServiceImpl bookServiceImpl;
     @Mock
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
     private Order order;
     private OrderRequest orderRequest;
     private Long orderId;
@@ -84,7 +87,7 @@ public class OrderServiceTest {
     @Test
     public void Save_ReturnsOrder() {
         when(orderRepository.save(Mockito.any(Order.class))).thenReturn(order);
-        when(bookService.save(Mockito.any(BookRequest.class))).thenReturn(Mockito.mock(Book.class));
+        when(bookServiceImpl.save(Mockito.any(BookRequest.class))).thenReturn(Mockito.mock(Book.class));
         when(customerService.save(Mockito.any(CustomerRequest.class))).thenReturn(Mockito.mock(Customer.class));
         Assertions.assertNotNull(service.save(orderRequest));
     }

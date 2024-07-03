@@ -18,7 +18,7 @@ import ru.fafurin.publishing.dto.response.OrderResponse;
 import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.service.FileGateway;
-import ru.fafurin.publishing.service.OrderServiceContract;
+import ru.fafurin.publishing.service.OrderService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,7 +34,7 @@ import java.util.List;
 )
 public class OrderController {
 
-    private final OrderServiceContract orderService;
+    private final OrderService orderService;
     private final FileGateway fileGateway;
 
     private final Counter addOrderCounter = Metrics.counter("add_order_count");
@@ -43,8 +43,6 @@ public class OrderController {
     @Operation(summary = "Получить информацию обо всех заказах со статусом AWAIT")
     public ResponseEntity<List<OrderResponse>> listAwaitingOrders() {
         List<OrderResponse> orders = orderService.getAwaitingOrders();
-
-        System.out.println(orders);
 
         if (orders.isEmpty()) {
             log.info(String.valueOf(HttpStatus.NO_CONTENT));
@@ -70,13 +68,11 @@ public class OrderController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новый заказ")
     public ResponseEntity<Order> save(
             @RequestBody @Valid OrderRequest orderRequest) {
-
-        System.out.println(orderRequest);
 
         Order order = orderService.save(orderRequest);
 
@@ -93,7 +89,7 @@ public class OrderController {
                 .body(order);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить данные о заказе по идентификатору")
     public ResponseEntity<Order> updateOrder(
@@ -109,7 +105,7 @@ public class OrderController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить заказ по идентификатору")
     public ResponseEntity<String> deleteOrder(

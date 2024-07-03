@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
 import ru.fafurin.publishing.entity.Customer;
-import ru.fafurin.publishing.service.CustomerService;
+import ru.fafurin.publishing.service.impl.CustomerServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class CustomerControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
-    private CustomerService service;
+    private CustomerServiceImpl service;
     private Customer customer;
     private CustomerRequest customerRequest;
     private String requestURI;

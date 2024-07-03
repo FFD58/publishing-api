@@ -16,6 +16,7 @@ import ru.fafurin.publishing.entity.UserTask;
 import ru.fafurin.publishing.repository.OrderRepository;
 import ru.fafurin.publishing.repository.UserRepository;
 import ru.fafurin.publishing.repository.UserTaskRepository;
+import ru.fafurin.publishing.service.impl.UserTaskServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class UserTaskServiceTest {
 
     @InjectMocks
-    private UserTaskService service;
+    private UserTaskServiceImpl service;
 
     @Mock
     private UserTaskRepository userTaskRepository;

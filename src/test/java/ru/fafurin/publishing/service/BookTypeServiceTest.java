@@ -12,6 +12,7 @@ import ru.fafurin.publishing.dto.request.BookTypeRequest;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.entity.BookType;
 import ru.fafurin.publishing.repository.BookTypeRepository;
+import ru.fafurin.publishing.service.impl.BookTypeServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class BookTypeServiceTest {
 
     @InjectMocks
-    private BookTypeService service;
+    private BookTypeServiceImpl service;
 
     @Mock
     private BookTypeRepository repository;

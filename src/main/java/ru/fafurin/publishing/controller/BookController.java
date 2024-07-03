@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.entity.Book;
 import ru.fafurin.publishing.exception.BookNotFoundException;
-import ru.fafurin.publishing.service.BookServiceContract;
+import ru.fafurin.publishing.service.BookService;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
 )
 public class BookController {
 
-    private final BookServiceContract bookService;
+    private final BookService bookService;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех книгах")
@@ -57,7 +57,7 @@ public class BookController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новую книгу")
     public ResponseEntity<Book> save(
@@ -68,7 +68,7 @@ public class BookController {
                 .body(bookService.save(bookRequest));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить данные о книге по идентификатору")
     public ResponseEntity<Book> update(
@@ -84,7 +84,7 @@ public class BookController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить книгу по идентификатору")
     public ResponseEntity<String> deleteBook(

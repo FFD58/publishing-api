@@ -10,12 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.BookTypeRequest;
-import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.entity.BookType;
+import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.service.BookTypeService;
-import ru.fafurin.publishing.service.BookTypeServiceContract;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import java.util.List;
 public class BookTypeController {
 
     @Autowired
-    private BookTypeServiceContract bookTypeService;
+    private BookTypeService bookTypeService;
 
     private final Counter addTypeCounter = Metrics.counter("add_type_count");
 
@@ -62,7 +62,7 @@ public class BookTypeController {
         }
     }
 
-    //    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новый тип книги")
     public ResponseEntity<BookType> save(
@@ -74,7 +74,7 @@ public class BookTypeController {
                 .body(bookTypeService.save(bookTypeRequest));
     }
 
-    //    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить тип книги по идентификатору")
     public ResponseEntity<BookType> updateBookType(
@@ -90,7 +90,7 @@ public class BookTypeController {
         }
     }
 
-    //    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить тип книги по идентификатору")
     public ResponseEntity<String> deleteBookType(

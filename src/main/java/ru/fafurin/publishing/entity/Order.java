@@ -16,13 +16,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer number;
-    private String deadline;
+    private LocalDateTime deadline;
     private String comment;
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -30,6 +29,7 @@ public class Order {
     private LocalDateTime updatedAt;
     private LocalDateTime finishedAt;
     private boolean isDeleted = false;
+    private boolean isReported = false;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -42,7 +42,7 @@ public class Order {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<UserTask> tasks;
 
@@ -60,5 +60,16 @@ public class Order {
         if (userTask != null) {
             this.tasks.add(userTask);
         }
+    }
+
+    @Override
+    public String toString() {
+        return  "number=" + number +
+                ", deadline=" + deadline +
+                ", comment='" + comment + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", finishedAt=" + finishedAt +
+                ", status=" + status.getTitle();
     }
 }

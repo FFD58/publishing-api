@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.fafurin.publishing.dto.request.BookTypeRequest;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.entity.BookType;
-import ru.fafurin.publishing.service.BookTypeService;
+import ru.fafurin.publishing.service.impl.BookTypeServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class BookTypeControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
-    private BookTypeService service;
+    private BookTypeServiceImpl service;
     private BookType bookType;
     private BookTypeRequest bookTypeRequest;
     private String requestURI;

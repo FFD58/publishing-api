@@ -16,7 +16,7 @@ import ru.fafurin.publishing.exception.UserTaskNotFoundException;
 import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.entity.User;
 import ru.fafurin.publishing.entity.UserTask;
-import ru.fafurin.publishing.service.UserTaskService;
+import ru.fafurin.publishing.service.impl.UserTaskServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class UserTaskControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
-    private UserTaskService service;
+    private UserTaskServiceImpl service;
     private UserTask userTask;
     private UserTaskRequest userTaskRequest;
     private String requestURI;

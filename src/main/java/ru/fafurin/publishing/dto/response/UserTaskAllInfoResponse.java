@@ -9,6 +9,7 @@ public class UserTaskAllInfoResponse {
     private Long id;
     private String title;
     private String status;
+    private String comment;
     private Long createdAt;
     private Long updatedAt;
     private Long finishedAt;

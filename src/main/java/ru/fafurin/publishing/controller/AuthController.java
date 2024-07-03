@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.fafurin.publishing.dto.request.LoginRequest;
 import ru.fafurin.publishing.dto.request.SignUpRequest;
 import ru.fafurin.publishing.dto.response.JwtResponse;
-import ru.fafurin.publishing.service.AuthServiceContract;
+import ru.fafurin.publishing.service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Аутентификация")
 public class AuthController {
-    private final AuthServiceContract authenticationService;
+    private final AuthService authenticationService;
 
     @Operation(summary = "Регистрация пользователя")
     @PostMapping("/sign-up")

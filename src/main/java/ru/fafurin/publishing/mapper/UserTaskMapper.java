@@ -10,6 +10,7 @@ public class UserTaskMapper {
 
     public static UserTask getUserTask(UserTask userTask, UserTaskRequest userTaskRequest) {
         userTask.setTitle(userTaskRequest.getTitle());
+        userTask.setComment(userTaskRequest.getComment());
         return userTask;
     }
 
@@ -18,6 +19,7 @@ public class UserTaskMapper {
                 .id(userTask.getId())
                 .title(userTask.getTitle())
                 .status(userTask.getStatus().getTitle())
+                .comment(userTask.getComment())
                 .username(userTask.getUser().getUsername())
                 .orderNumber(userTask.getOrder().getNumber())
                 .createdAt(DateTimeUtil.toTimestamp(userTask.getCreatedAt()))
@@ -30,6 +32,7 @@ public class UserTaskMapper {
         return UserTaskAllInfoResponse.builder()
                 .title(userTask.getTitle())
                 .status(userTask.getStatus().getTitle())
+                .comment(userTask.getComment())
                 .createdAt(DateTimeUtil.toTimestamp(userTask.getCreatedAt()))
                 .updatedAt(DateTimeUtil.toTimestamp(userTask.getUpdatedAt()))
                 .finishedAt(DateTimeUtil.toTimestamp(userTask.getFinishedAt()))

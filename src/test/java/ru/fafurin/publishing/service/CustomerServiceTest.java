@@ -12,6 +12,7 @@ import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
 import ru.fafurin.publishing.entity.Customer;
 import ru.fafurin.publishing.repository.CustomerRepository;
+import ru.fafurin.publishing.service.impl.CustomerServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class CustomerServiceTest {
 
     @InjectMocks
-    private CustomerService service;
+    private CustomerServiceImpl service;
 
     @Mock
     private CustomerRepository repository;

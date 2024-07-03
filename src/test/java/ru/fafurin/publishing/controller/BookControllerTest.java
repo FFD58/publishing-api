@@ -15,7 +15,7 @@ import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.exception.BookNotFoundException;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.entity.*;
-import ru.fafurin.publishing.service.BookService;
+import ru.fafurin.publishing.service.impl.BookServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class BookControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
-    private BookService service;
+    private BookServiceImpl service;
     private Book book;
     private BookRequest bookRequest;
     private String requestURI;
@@ -50,8 +50,7 @@ public class BookControllerTest {
                 .title("Test Book")
                 .typeId(1L)
                 .formatId(1L)
-                .authors(List.of("Test Author"))
-                .files(List.of("test.file"))
+                .authors("Test Author")
                 .build();
         book = Book.builder()
                 .title("Test Book")

@@ -58,4 +58,12 @@ public class Book {
             file.setBook(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return  "title='" + title + '\'' +
+                ", authors=" + authors +
+                ", format=" + format.getTitle() +
+                ", type=" + type.getTitle();
+    }
 }

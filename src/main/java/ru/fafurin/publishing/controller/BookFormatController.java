@@ -8,12 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.BookFormatRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.entity.BookFormat;
 import ru.fafurin.publishing.service.BookFormatService;
-import ru.fafurin.publishing.service.BookFormatServiceContract;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
 public class BookFormatController {
 
     @Autowired
-    private BookFormatServiceContract bookFormatService;
+    private BookFormatService bookFormatService;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех книжных форматах")
@@ -57,7 +57,7 @@ public class BookFormatController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новый книжный формат")
     public ResponseEntity<BookFormat> save(
@@ -67,7 +67,7 @@ public class BookFormatController {
                 .body(bookFormatService.save(bookFormatRequest));
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить книжный формат по идентификатору")
     public ResponseEntity<BookFormat> updateBookFormat(
@@ -83,7 +83,7 @@ public class BookFormatController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить книжный формат по идентификатору")
     public ResponseEntity<String> deleteBookFormat(

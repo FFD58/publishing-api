@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="${customer.name}">, отчет по Вашему заказу</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            font-size: 16px;
+            width: 70%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: black;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 style="text-align: center">Здравствуйте, <span th:text="${customer.name}"></span>!</h1>
+
+    <h2 style="text-align: center">Отчет по заказу № <span th:text="${order.number}"></span></h2>
+
+    <h3 style="text-align: center">Заказ</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Сроки</th>
+            <th>Создан</th>
+            <th>Обновлен</th>
+            <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${#temporals.format(order.deadline, 'dd.MM.yyyy')}"></td>
+            <td th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy')}"></td>
+            <td th:text="${#temporals.format(order.updatedAt, 'dd.MM.yyyy')}"></td>
+            <td th:text="${order.status.title}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3 style="text-align: center">Книга</h3>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Авторы</th>
+            <th>Формат</th>
+            <th>Тип</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.authors}"></td>
+            <td th:text="${book.format.title}"></td>
+            <td th:text="${book.type.title}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 style="text-align: center">Задачи</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Создана</th>
+            <th>Обновлена</th>
+            <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody th:if="${tasks}">
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.title}"></td>
+            <td th:text="${#temporals.format(task.createdAt, 'dd.MM.yyyy')}"></td>
+            <td th:text="${#temporals.format(task.updatedAt, 'dd.MM.yyyy')}"></td>
+            <td th:text="${task.status.title}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div id="div">
+        <p>С наилучшими пожеланиями, <br>Команда Издательства ПГУ</p>
+    </div>
+</div>
+</body>
+</html>

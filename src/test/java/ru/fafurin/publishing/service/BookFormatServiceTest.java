@@ -12,6 +12,7 @@ import ru.fafurin.publishing.dto.request.BookFormatRequest;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.entity.BookFormat;
 import ru.fafurin.publishing.repository.BookFormatRepository;
+import ru.fafurin.publishing.service.impl.BookFormatServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class BookFormatServiceTest {
 
     @InjectMocks
-    private BookFormatService service;
+    private BookFormatServiceImpl service;
 
     @Mock
     private BookFormatRepository repository;

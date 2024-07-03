@@ -9,6 +9,7 @@ public class UserTaskResponse {
     private Long id;
     private String title;
     private String status;
+    private String comment;
     private String username;
     private Integer orderNumber;
     private Long createdAt;

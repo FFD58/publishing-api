@@ -20,6 +20,10 @@ public class UserTaskRequest {
     @NotEmpty
     private String title;
 
+    @Schema(description = "Комментарий")
+    @Size(min = 3, max = 30)
+    private String comment;
+
     @Schema(description = "Идентификатор сотрудника")
     @NotNull
     private Long userId;

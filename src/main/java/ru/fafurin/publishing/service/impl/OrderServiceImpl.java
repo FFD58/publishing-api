@@ -34,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
      *
      * @return список всех заказов со статусом AWAIT, отсортированных по дате изменения
      */
+    @Override
     public List<OrderResponse> getAwaitingOrders() {
         List<Order> orders = orderRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedAt"));
 
@@ -51,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
      * @return полная информация о заказе или выбрасывается исключение,
      * если заказ не найден по идентификатору
      */
+    @Override
     public OrderAllInfoResponse get(Long id) {
         Optional<Order> orderOptional = orderRepository.findById(id);
         if (orderOptional.isPresent()) {
@@ -64,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orderRequest - данные для сохранения нового заказа
      * @return сохраненный заказ
      */
+    @Override
     public Order save(OrderRequest orderRequest) {
         Order order = OrderMapper.getOrder(new Order(), orderRequest);
 
@@ -85,6 +88,7 @@ public class OrderServiceImpl implements OrderService {
      * @return - измененный заказ или выбрасывается исключение,
      * если заказ не найден по идентификатору
      */
+    @Override
     public Order update(Long id, OrderRequest orderRequest) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
@@ -102,6 +106,7 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param id - идентификатор заказа
      */
+    @Override
     public void delete(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
@@ -111,6 +116,13 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    /**
+     * Получить список заказов, у которых дедлайн наступает
+     * в интервале от сегодняшнего дня + duration
+     *
+     * @param duration - продолжительность
+     * @return список заказов
+     */
     @Override
     public List<Order> findAllSoonOrders(Duration duration) {
         LocalDateTime now = LocalDateTime.now();
@@ -122,5 +134,4 @@ public class OrderServiceImpl implements OrderService {
     public void refresh(Order order) {
         orderRepository.save(order);
     }
-
 }

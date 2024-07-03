@@ -2,7 +2,6 @@ package ru.fafurin.publishing.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,8 +33,9 @@ public class AuthServiceImpl implements AuthService {
      * Регистрация пользователя
      *
      * @param request данные пользователя
-     * @return токен
+     * @return DTO токена
      */
+    @Override
     public JwtResponse signUp(SignUpRequest request) {
 
         User user = User.builder()
@@ -64,8 +64,9 @@ public class AuthServiceImpl implements AuthService {
      * Аутентификация пользователя
      *
      * @param request данные пользователя
-     * @return токен
+     * @return DTO токена
      */
+    @Override
     public JwtResponse logIn(LoginRequest request) {
         JwtResponse jwtResponse = new JwtResponse();
         try {
@@ -91,13 +92,20 @@ public class AuthServiceImpl implements AuthService {
 
             System.out.println(jwtResponse);
 
-        } catch (MethodArgumentNotValidException e) {
+        } catch (RuntimeException e) {
             jwtResponse.setMessage(e.getMessage());
         }
         System.out.println(jwtResponse);
         return jwtResponse;
     }
 
+    /**
+     * Обновление токена
+     *
+     * @param token - токен
+     * @return DTO токена
+     */
+    @Override
     public JwtResponse refreshToken(String token) {
         JwtResponse jwtResponse = new JwtResponse();
         User user = userService.getByUsername(jwtService.extractUsername(token));

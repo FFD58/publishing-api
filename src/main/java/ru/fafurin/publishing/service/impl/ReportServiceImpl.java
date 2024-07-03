@@ -22,6 +22,10 @@ public class ReportServiceImpl implements ReportService {
     private final MailService mailService;
     private final Duration DURATION = Duration.ofDays(30);
 
+    /**
+     * Проверить у каких заказов осталось 30 дней до дедлайна.
+     * Если такие заказы есть, заказчикам отправляется отчет о проделанной работе
+     */
     @Scheduled(cron = "00 10 * * * *")
     @Override
     public void reportOnOrder() {

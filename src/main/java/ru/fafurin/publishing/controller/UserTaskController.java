@@ -1,7 +1,5 @@
 package ru.fafurin.publishing.controller;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.Metrics;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +31,6 @@ import java.util.List;
 public class UserTaskController {
 
     private final UserTaskService userTaskService;
-    private final Counter addTaskCounter = Metrics.counter("add_task_count");
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех задачах сотрудников")
@@ -97,9 +94,6 @@ public class UserTaskController {
     @Operation(summary = "Сохранить новую задачу")
     public ResponseEntity<UserTask> save(
             @RequestBody @Valid UserTaskRequest userTaskRequest) {
-
-        addTaskCounter.increment();
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userTaskService.save(userTaskRequest));

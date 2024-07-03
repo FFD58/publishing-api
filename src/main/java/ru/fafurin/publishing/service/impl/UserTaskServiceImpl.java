@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.UserTaskRequest;
 import ru.fafurin.publishing.dto.response.UserTaskAllInfoResponse;
 import ru.fafurin.publishing.dto.response.UserTaskResponse;
-import ru.fafurin.publishing.exception.UserNotFoundException;
-import ru.fafurin.publishing.exception.UserTaskNotFoundException;
-import ru.fafurin.publishing.mapper.UserTaskMapper;
 import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.entity.Status;
 import ru.fafurin.publishing.entity.User;
 import ru.fafurin.publishing.entity.UserTask;
+import ru.fafurin.publishing.exception.UserNotFoundException;
+import ru.fafurin.publishing.exception.UserTaskNotFoundException;
+import ru.fafurin.publishing.mapper.UserTaskMapper;
 import ru.fafurin.publishing.repository.OrderRepository;
 import ru.fafurin.publishing.repository.UserRepository;
 import ru.fafurin.publishing.repository.UserTaskRepository;
@@ -136,6 +136,12 @@ public class UserTaskServiceImpl implements UserTaskService {
         userTaskRepository.save(userTask);
     }
 
+    /**
+     * Завершить задачу по идентификатору,
+     * т.е. изменить статус на COMPLETED
+     *
+     * @param id - идентификатор задачи
+     */
     @Override
     public void complete(Long id) {
         UserTask userTask = userTaskRepository.findById(id)

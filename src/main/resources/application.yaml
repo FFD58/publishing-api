@@ -37,21 +37,9 @@ spring:
           auth: true
           starttls:
             enable: true
+
 springdoc:
   show-actuator: false
   swagger-ui:
     enabled: true
     path: /index.html
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - metrics
-          - prometheus
-          - health
-
-  endpoint:
-    health:
-      show-details: always

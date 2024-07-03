@@ -1,7 +1,5 @@
 package ru.fafurin.publishing.controller;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.Metrics;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,10 +15,8 @@ import ru.fafurin.publishing.dto.response.OrderAllInfoResponse;
 import ru.fafurin.publishing.dto.response.OrderResponse;
 import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
-import ru.fafurin.publishing.service.FileGateway;
 import ru.fafurin.publishing.service.OrderService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -35,9 +31,6 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
-    private final FileGateway fileGateway;
-
-    private final Counter addOrderCounter = Metrics.counter("add_order_count");
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех заказах со статусом AWAIT")
@@ -73,17 +66,7 @@ public class OrderController {
     @Operation(summary = "Сохранить новый заказ")
     public ResponseEntity<Order> save(
             @RequestBody @Valid OrderRequest orderRequest) {
-
         Order order = orderService.save(orderRequest);
-
-        addOrderCounter.increment();
-
-        String filename = order.getId() + "_"
-                + order.getBook().getTitle() + "_"
-                + LocalDateTime.now().getNano() + ".txt";
-
-        filename = filename.replace(" ", "_");
-        fileGateway.writeToFile(filename, String.valueOf(order));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(order);

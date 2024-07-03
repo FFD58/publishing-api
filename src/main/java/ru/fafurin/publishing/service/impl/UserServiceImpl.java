@@ -1,5 +1,6 @@
 package ru.fafurin.publishing.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,10 +16,10 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
 
     /**
      * Получить список всех сотрудников
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService {
      * @param user - данные сотрудника
      * @return сохраненный сотрудник
      */
+    @Override
     public User save(User user) {
         return repository.save(user);
     }
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService {
      * @param username - имя сотрудника
      * @return сотрудник или выбрасывается исключение, если сотрудника с таким именем нет в базе
      */
+    @Override
     public User getByUsername(String username) {
         return repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
@@ -72,6 +75,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param id - идентификатор сотрудника
      */
+    @Override
     public void delete(Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
@@ -79,6 +83,11 @@ public class UserServiceImpl implements UserService {
         repository.save(user);
     }
 
+    /**
+     * Получить объект UserDetailsService для аутентификации
+     * @return объект UserDetailsService
+     */
+    @Override
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
     }

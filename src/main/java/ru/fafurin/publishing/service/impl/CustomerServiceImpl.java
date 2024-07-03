@@ -1,11 +1,12 @@
 package ru.fafurin.publishing.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
+import ru.fafurin.publishing.entity.Customer;
 import ru.fafurin.publishing.exception.CustomerNotFoundException;
 import ru.fafurin.publishing.mapper.CustomerMapper;
-import ru.fafurin.publishing.entity.Customer;
 import ru.fafurin.publishing.repository.CustomerRepository;
 import ru.fafurin.publishing.service.CustomerService;
 
@@ -14,15 +15,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired
-    private CustomerRepository repository;
+    private final CustomerRepository repository;
 
     /**
      * Получить список всех заказчиков
+     *
      * @return список всех заказчиков
      */
+    @Override
     public List<Customer> getAll() {
         List<Customer> customers = repository.findAll();
         return customers.stream()
@@ -32,10 +35,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * Получить заказчика по идентификатору
+     *
      * @param id - идентификатор заказчика
      * @return заказчик или выбрасывается исключение,
-     *         если заказчик не найден по идентификатору
+     * если заказчик не найден по идентификатору
      */
+    @Override
     public Customer get(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
@@ -43,9 +48,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * Сохранить нового заказчика, если он не найден по email
+     *
      * @param customerRequest - данные заказчика
      * @return новый или существующий заказчик
      */
+    @Override
     public Customer save(CustomerRequest customerRequest) {
         Customer customer = CustomerMapper.getCustomer(new Customer(), customerRequest);
         return checkCustomerExisting(customer);
@@ -53,11 +60,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * Изменить данные существующего заказчика
-     * @param id - идентификатор заказчика
+     *
+     * @param id              - идентификатор заказчика
      * @param customerRequest - данные для изменения существующего заказчика
      * @return - измененный заказчик или выбрасывается исключение,
-     *           если заказчик не найден по идентификатору
+     * если заказчик не найден по идентификатору
      */
+    @Override
     public Customer update(Long id, CustomerRequest customerRequest) {
         Customer customer = repository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
@@ -69,8 +78,10 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Безопасно удалить заказчика по идентификатору,
      * т.е. задать значение true для поля IsDeleted
+     *
      * @param id - идентификатор заказчика
      */
+    @Override
     public void delete(Long id) {
         Customer customer = repository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
@@ -82,6 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Вернуть заказчика, если заказчик с таким email существует,
      * или вернуть нового заказчика
+     *
      * @param customer - данные заказчика
      * @return новый или существующий заказчик
      */

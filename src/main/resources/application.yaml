@@ -12,14 +12,14 @@ spring:
     import: optional:file:.env[.properties]
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
   datasource:
-    url: jdbc:postgresql://${HOST}:5432/${POSTGRES_DATABASE}
+    url: ${POSTGRES_URL}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
   flyway:
     locations: classpath:migrations
-    url: jdbc:postgresql://${HOST}:5432/${POSTGRES_DATABASE}
+    url: ${POSTGRES_URL}
     user: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
 

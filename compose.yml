@@ -1,11 +1,34 @@
+version: '3.9'
+
 services:
-  postgres:
-    image: postgres:alpine
+  app:
+    container_name: app
+    expose:
+      - '8080'
+    ports:
+      - '8080:8080'
     environment:
-      POSTGRES_DB: publishing
-      POSTGRES_USER: someuser
-      POSTGRES_PASSWORD: somepass
+      - JWT_KEY=53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
+      - SPRING_MAIL_HOST=smtp.gmail.com
+      - SPRING_MAIL_PORT=587
+      - SPRING_MAIL_USERNAME=ffd061158@gmail.com
+      - SPRING_MAIL_PASSWORD=tzfapruacoytinww
+      - POSTGRES_USERNAME=someuser
+      - POSTGRES_PASSWORD=somepass
+      - POSTGRES_URL=jdbc:postgresql://db:5432/publishing
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  db:
+    image: 'postgres'
+    container_name: db
+    environment:
+      - POSTGRES_USER=someuser
+      - POSTGRES_PASSWORD=somepass
     volumes:
       - ./postgres_data:/var/lib/postgresql/data/
-    ports:
-      - 5432:5432
+    expose:
+      - '5432'

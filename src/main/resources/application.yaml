@@ -12,7 +12,7 @@ spring:
     import: optional:file:.env[.properties]
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
   datasource:
     url: ${POSTGRES_URL}
     username: ${POSTGRES_USERNAME}

@@ -26,6 +26,7 @@ services:
     image: 'postgres'
     container_name: db
     environment:
+      - POSTGRES_DB=publishing
       - POSTGRES_USER=someuser
       - POSTGRES_PASSWORD=somepass
     volumes:

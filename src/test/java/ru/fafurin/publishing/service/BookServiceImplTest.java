@@ -34,8 +34,7 @@ public class BookServiceImplTest {
     private BookTypeRepository bookTypeRepository;
     @Mock
     private BookFormatRepository bookFormatRepository;
-    @Mock
-    private OrderRepository orderRepository;
+
     private Book book;
     private BookRequest bookRequest;
     private Long bookId;
@@ -47,8 +46,7 @@ public class BookServiceImplTest {
                 .title("Test Book")
                 .typeId(1L)
                 .formatId(1L)
-                .authors(List.of("Test Author"))
-                .files(List.of("test.file"))
+                .authors("Test Author")
                 .build();
         book = Book.builder()
                 .title("Test Book")
@@ -56,7 +54,6 @@ public class BookServiceImplTest {
                 .format(Mockito.mock(BookFormat.class))
                 .order(Mockito.mock(Order.class))
                 .authors(List.of("Test Author"))
-                .files(List.of(Mockito.mock(BookFile.class)))
                 .build();
     }
 
@@ -86,15 +83,11 @@ public class BookServiceImplTest {
     public void Save_ReturnsBook() {
         BookType bookType = Mockito.mock(BookType.class);
         when(bookTypeRepository.findById(1L))
-                .thenReturn(Optional.ofNullable(bookType));
+                .thenReturn(Optional.of(bookType));
 
         BookFormat bookFormat = Mockito.mock(BookFormat.class);
         when(bookFormatRepository.findById(1L))
-                .thenReturn(Optional.ofNullable(bookFormat));
-
-        Order order = Mockito.mock(Order.class);
-        when(orderRepository.findById(1L))
-                .thenReturn(Optional.ofNullable(order));
+                .thenReturn(Optional.of(bookFormat));
 
         when(bookRepository.save(Mockito.any(Book.class)))
                 .thenReturn(Mockito.mock(Book.class));

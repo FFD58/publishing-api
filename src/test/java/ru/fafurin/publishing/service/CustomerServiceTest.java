@@ -108,7 +108,7 @@ public class CustomerServiceTest {
      */
     @Test
     public void UpdateById_ReturnsCustomer() {
-        when(repository.findById(customerId)).thenReturn(Optional.ofNullable(customer));
+        when(repository.findById(customerId)).thenReturn(Optional.of(customer));
         when(repository.save(customer)).thenReturn(customer);
 
         Assertions.assertNotNull(service.update(customerId, customerRequest));
@@ -119,7 +119,7 @@ public class CustomerServiceTest {
      */
     @Test
     public void SafeDeleteById_ReturnsVoid() {
-        when(repository.findById(customerId)).thenReturn(Optional.ofNullable(customer));
+        when(repository.findById(customerId)).thenReturn(Optional.of(customer));
         when(repository.save(customer)).thenReturn(customer);
 
         service.delete(customerId);

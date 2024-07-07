@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.fafurin.publishing.dto.request.UserTaskRequest;
+import ru.fafurin.publishing.dto.response.task.UserTaskAllInfoResponse;
+import ru.fafurin.publishing.dto.response.task.UserTaskAddInfoResponse;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
 import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.entity.User;
@@ -28,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class UserTaskControllerTest {
 
@@ -108,7 +110,7 @@ public class UserTaskControllerTest {
      */
     @Test
     public void GetById_Returns200OK() throws Exception {
-        UserTask userTask = Mockito.mock(UserTask.class);
+        UserTaskAllInfoResponse userTask = Mockito.mock(UserTaskAllInfoResponse.class);
 
         when(service.get(userTaskId)).thenReturn(userTask);
 
@@ -136,10 +138,10 @@ public class UserTaskControllerTest {
      */
     @Test
     public void GetAll_Returns200OK() throws Exception {
-        List<UserTask> userTasks = List.of(
-                Mockito.mock(UserTask.class),
-                Mockito.mock(UserTask.class),
-                Mockito.mock(UserTask.class)
+        List<UserTaskAddInfoResponse> userTasks = List.of(
+                Mockito.mock(UserTaskAddInfoResponse.class),
+                Mockito.mock(UserTaskAddInfoResponse.class),
+                Mockito.mock(UserTaskAddInfoResponse.class)
         );
 
         when(service.getAll()).thenReturn(userTasks);

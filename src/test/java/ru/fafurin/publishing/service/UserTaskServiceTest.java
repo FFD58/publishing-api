@@ -8,11 +8,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 import ru.fafurin.publishing.dto.request.UserTaskRequest;
+import ru.fafurin.publishing.dto.response.task.UserTaskAddInfoResponse;
+import ru.fafurin.publishing.entity.*;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
-import ru.fafurin.publishing.entity.Order;
-import ru.fafurin.publishing.entity.User;
-import ru.fafurin.publishing.entity.UserTask;
 import ru.fafurin.publishing.repository.OrderRepository;
 import ru.fafurin.publishing.repository.UserRepository;
 import ru.fafurin.publishing.repository.UserTaskRepository;
@@ -42,11 +42,25 @@ public class UserTaskServiceTest {
     @BeforeEach
     public void init() {
         userTaskId = 111L;
+        Book book = Book.builder()
+                .id(1L)
+                .authors(List.of("Test Author"))
+                .type(BookType.builder().id(1L).title("Test").build())
+                .format(BookFormat.builder().id(1L).title("Test").designation("Test").build())
+                .build();
+        Order order = Order.builder()
+                .id(1L)
+                .book(book)
+                .customer(Mockito.mock(Customer.class))
+                .status(Status.AWAIT)
+                .build();
+        order.setStatus(Status.AWAIT);
         userTask = UserTask.builder()
                 .id(1L)
                 .title("New Book Type")
+                .status(Status.AWAIT)
                 .user(Mockito.mock(User.class))
-                .order(Mockito.mock(Order.class))
+                .order(order)
                 .isDeleted(false).build();
         userTaskRequest = UserTaskRequest.builder()
                 .title("New Book Type")
@@ -60,9 +74,12 @@ public class UserTaskServiceTest {
      */
     @Test
     public void GetAll_ReturnsList() {
-        when(userTaskRepository.findAll()).thenReturn(List.of(userTask));
 
-        List<UserTask> savedUserTasks = service.getAll();
+        when(userTaskRepository
+                .findAll(Sort.by(Sort.Direction.DESC, "updatedAt")))
+                .thenReturn(List.of(userTask));
+
+        List<UserTaskAddInfoResponse> savedUserTasks = service.getAll();
 
         Assertions.assertFalse(savedUserTasks.isEmpty());
 
@@ -83,7 +100,8 @@ public class UserTaskServiceTest {
      */
     @Test
     public void FindById_ReturnsUserTask() {
-        when(userTaskRepository.findById(userTaskId)).thenReturn(Optional.ofNullable(userTask));
+        System.out.println(userTask.getOrder().getStatus());
+        when(userTaskRepository.findById(userTaskId)).thenReturn(Optional.of(userTask));
 
         Assertions.assertNotNull(service.get(userTaskId));
     }

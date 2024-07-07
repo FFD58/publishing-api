@@ -8,20 +8,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.dto.request.CustomerRequest;
 import ru.fafurin.publishing.dto.request.OrderRequest;
+import ru.fafurin.publishing.dto.response.order.OrderAddInfoResponse;
+import ru.fafurin.publishing.entity.*;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
-import ru.fafurin.publishing.entity.Book;
-import ru.fafurin.publishing.entity.Customer;
-import ru.fafurin.publishing.entity.Order;
-import ru.fafurin.publishing.entity.Status;
 import ru.fafurin.publishing.repository.OrderRepository;
 import ru.fafurin.publishing.service.impl.BookServiceImpl;
 import ru.fafurin.publishing.service.impl.CustomerServiceImpl;
 import ru.fafurin.publishing.service.impl.OrderServiceImpl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +36,8 @@ public class OrderServiceTest {
     @Mock
     private OrderRepository orderRepository;
     @Mock
+    private MailService mailService;
+    @Mock
     private BookServiceImpl bookServiceImpl;
     @Mock
     private CustomerServiceImpl customerService;
@@ -46,22 +48,29 @@ public class OrderServiceTest {
     @BeforeEach
     public void init() {
         orderId = 111L;
+        Book book = Book.builder()
+                .id(1L)
+                .authors(List.of("Test Author"))
+                .type(BookType.builder().id(1L).title("Test").build())
+                .format(BookFormat.builder().id(1L).title("Test").designation("Test").build())
+                .build();
         order = Order.builder()
                 .id(1L)
                 .number(1)
-                .deadline("Deadline")
+                .deadline(LocalDateTime.now().plusDays(100))
                 .comment("Comment")
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .finishedAt(null)
-                .book(Mockito.mock(Book.class))
+                .book(book)
+                .tasks(new ArrayList<>())
                 .customer(Mockito.mock(Customer.class))
                 .status(Status.AWAIT)
                 .isDeleted(false)
                 .build();
         orderRequest = OrderRequest.builder()
                 .number(1)
-                .deadline("Deadline")
+                .deadline(LocalDateTime.now().plusDays(100))
                 .comment("Comment")
                 .book(Mockito.mock(BookRequest.class))
                 .customer(Mockito.mock(CustomerRequest.class))
@@ -73,9 +82,11 @@ public class OrderServiceTest {
      */
     @Test
     public void GetAll_ReturnsList() {
-        when(orderRepository.findAll()).thenReturn(List.of(order));
+        when(orderRepository
+                .findAll(Sort.by(Sort.Direction.DESC, "updatedAt")))
+                .thenReturn(List.of(order));
 
-        List<Order> savedOrders = service.getAll();
+        List<OrderAddInfoResponse> savedOrders = service.getAwaitingOrders();
 
         Assertions.assertFalse(savedOrders.isEmpty());
 
@@ -97,7 +108,7 @@ public class OrderServiceTest {
      */
     @Test
     public void FindById_ReturnsOrder() {
-        when(orderRepository.findById(orderId)).thenReturn(Optional.ofNullable(order));
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
         Assertions.assertNotNull(service.get(orderId));
     }

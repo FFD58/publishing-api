@@ -10,7 +10,7 @@ create table if not exists customers
 );
 
 alter table customers
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists formats
 (
@@ -23,7 +23,7 @@ create table if not exists formats
 );
 
 alter table formats
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists profile
 (
@@ -39,7 +39,7 @@ create table if not exists profile
 );
 
 alter table profile
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists types
 (
@@ -51,7 +51,7 @@ create table if not exists types
 );
 
 alter table types
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists books
 (
@@ -71,7 +71,7 @@ create table if not exists books
 );
 
 alter table books
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists files
 (
@@ -87,7 +87,7 @@ create table if not exists files
 );
 
 alter table files
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists books_files
 (
@@ -101,7 +101,7 @@ create table if not exists books_files
 );
 
 alter table books_files
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists formats_books
 (
@@ -115,7 +115,7 @@ create table if not exists formats_books
 );
 
 alter table formats_books
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists orders
 (
@@ -143,7 +143,7 @@ create table if not exists orders
 );
 
 alter table orders
-    owner to postgres;
+    owner to someuser;
 
 alter table books
     add constraint fkl10e1j3e6o5wsckd3h55ordj
@@ -161,7 +161,7 @@ create table if not exists customers_orders
 );
 
 alter table customers_orders
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists types_books
 (
@@ -175,7 +175,7 @@ create table if not exists types_books
 );
 
 alter table types_books
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists users
 (
@@ -201,7 +201,7 @@ create table if not exists users
 );
 
 alter table users
-    owner to postgres;
+    owner to someuser;
 
 alter table profile
     add constraint fks14jvsf9tqrcnly0afsv0ngwv
@@ -230,7 +230,7 @@ create table if not exists user_tasks
 );
 
 alter table user_tasks
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists orders_tasks
 (
@@ -244,7 +244,7 @@ create table if not exists orders_tasks
 );
 
 alter table orders_tasks
-    owner to postgres;
+    owner to someuser;
 
 create table if not exists users_tasks
 (
@@ -258,7 +258,7 @@ create table if not exists users_tasks
 );
 
 alter table users_tasks
-    owner to postgres;
+    owner to someuser;
 
 
 ALTER SEQUENCE customers_id_seq RESTART WITH 1;

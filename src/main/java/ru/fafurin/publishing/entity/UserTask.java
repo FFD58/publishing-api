@@ -2,6 +2,7 @@ package ru.fafurin.publishing.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,29 +15,30 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
+    Long id;
+    String title;
     @Enumerated(EnumType.STRING)
-    private Status status;
-    private String comment;
+    Status status;
+    String comment;
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
-    private LocalDateTime finishedAt;
-    private boolean isDeleted = false;
+    LocalDateTime updatedAt;
+    LocalDateTime finishedAt;
+    boolean isDeleted = false;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    Order order;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    User user;
 
     public void setUser(User user) {
         this.user = user;
@@ -46,15 +48,5 @@ public class UserTask {
     public void setOrder(Order order) {
         this.order = order;
         order.addTask(this);
-    }
-
-    @Override
-    public String toString() {
-        return  "title='" + title + '\'' +
-                ", status=" + status +
-                ", comment='" + comment + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", finishedAt=" + finishedAt;
     }
 }

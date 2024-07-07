@@ -1,15 +1,16 @@
 package ru.fafurin.publishing.dto.response;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookResponse {
-    private String title;
-    private String type;
-    private String format;
-    private String authors;
+    String title;
+    String type;
+    String format;
+    String authors;
 }

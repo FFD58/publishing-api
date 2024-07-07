@@ -3,6 +3,7 @@ package ru.fafurin.publishing.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,19 +15,20 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    Long id;
+    String name;
     @Column(unique = true)
-    private String email;
-    private String phone;
-    private boolean isDeleted = false;
+    String email;
+    String phone;
+    boolean isDeleted = false;
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Order> orders;
+    List<Order> orders;
 
     public void addOrder(Order order) {
         if (order != null) {

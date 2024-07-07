@@ -3,6 +3,7 @@ package ru.fafurin.publishing.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,35 +17,36 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Integer number;
-    private LocalDateTime deadline;
-    private String comment;
+    Long id;
+    Integer number;
+    LocalDateTime deadline;
+    String comment;
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
-    private LocalDateTime finishedAt;
-    private boolean isDeleted = false;
-    private boolean isReported = false;
+    LocalDateTime updatedAt;
+    LocalDateTime finishedAt;
+    boolean isDeleted = false;
+    boolean isReported = false;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    Status status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    Customer customer;
 
     @OneToOne
     @JoinColumn(name = "book_id")
-    private Book book;
+    Book book;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<UserTask> tasks;
+    List<UserTask> tasks;
 
     public void setBook(Book book) {
         this.book = book;
@@ -60,16 +62,5 @@ public class Order {
         if (userTask != null) {
             this.tasks.add(userTask);
         }
-    }
-
-    @Override
-    public String toString() {
-        return  "number=" + number +
-                ", deadline=" + deadline +
-                ", comment='" + comment + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", finishedAt=" + finishedAt +
-                ", status=" + status.getTitle();
     }
 }

@@ -1,13 +1,16 @@
 package ru.fafurin.publishing.dto.response;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
-    private String username;
-    private String email;
-    private String phone;
-    private String position;
+    String username;
+    String email;
+    String phone;
+    String position;
 }

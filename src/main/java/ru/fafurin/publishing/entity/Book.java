@@ -3,6 +3,7 @@ package ru.fafurin.publishing.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -13,34 +14,35 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column(nullable = false)
-    private String title;
+    String title;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<BookFile> files;
+    List<BookFile> files;
 
-    private List<String> authors;
+    List<String> authors;
 
     @ManyToOne
     @JoinColumn(name = "book_format_id")
-    private BookFormat format;
+    BookFormat format;
 
     @ManyToOne
     @JoinColumn(name = "book_type_id")
-    private BookType type;
+    BookType type;
 
     @OneToOne
     @JoinColumn(name = "order_id")
     @JsonIgnore
-    private Order order;
+    Order order;
 
-    private boolean isDeleted = false;
+    boolean isDeleted = false;
 
     public void setType(BookType type) {
         this.type = type;
@@ -57,13 +59,5 @@ public class Book {
         for (BookFile file : files) {
             file.setBook(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return  "title='" + title + '\'' +
-                ", authors=" + authors +
-                ", format=" + format.getTitle() +
-                ", type=" + type.getTitle();
     }
 }

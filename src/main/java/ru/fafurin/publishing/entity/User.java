@@ -3,6 +3,7 @@ package ru.fafurin.publishing.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,29 +18,30 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String username;
+    Long id;
+    String username;
     @Column(unique = true)
-    private String email;
-    private String password;
-    private boolean isDeleted = false;
+    String email;
+    String password;
+    boolean isDeleted = false;
 
     @Enumerated(EnumType.STRING)
-    private Position position;
+    Position position;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    Role role;
 
     @OneToOne
     @JoinColumn(name = "profile_id")
-    private Profile profile;
+    Profile profile;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<UserTask> tasks;
+    List<UserTask> tasks;
 
     public void addTask(UserTask userTask) {
         if (userTask != null) {
@@ -70,11 +72,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return  username + '\'' +
-                ", email='" + email;
     }
 }

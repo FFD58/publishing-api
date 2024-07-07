@@ -2,10 +2,8 @@ package ru.fafurin.publishing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
@@ -15,18 +13,19 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
     @Column(unique = true)
-    private String phone;
-    private String address;
-    private LocalDate startedAt;
-    private LocalDate birthday;
+    String phone;
+    String address;
+    LocalDate startedAt;
+    LocalDate birthday;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
-    private User user;
+    User user;
 }

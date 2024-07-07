@@ -3,6 +3,7 @@ package ru.fafurin.publishing.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -13,21 +14,22 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookFormat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column(nullable = false, unique = true)
-    private String title;
+    String title;
 
-    private String designation;
+    String designation;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Book> books;
+    List<Book> books;
 
-    private boolean isDeleted = false;
+    boolean isDeleted = false;
 
     public void addBook(Book book) {
         if (book != null) {

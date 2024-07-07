@@ -8,11 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.UserTaskRequest;
-import ru.fafurin.publishing.dto.response.UserTaskAllInfoResponse;
-import ru.fafurin.publishing.dto.response.UserTaskResponse;
+import ru.fafurin.publishing.dto.response.task.UserTaskAllInfoResponse;
+import ru.fafurin.publishing.dto.response.task.UserTaskAddInfoResponse;
 import ru.fafurin.publishing.entity.UserTask;
 import ru.fafurin.publishing.exception.UserTaskNotFoundException;
 import ru.fafurin.publishing.service.UserTaskService;
@@ -34,8 +33,8 @@ public class UserTaskController {
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех задачах сотрудников")
-    public ResponseEntity<List<UserTaskResponse>> list() {
-        List<UserTaskResponse> userTasks = userTaskService.getAll();
+    public ResponseEntity<List<UserTaskAddInfoResponse>> list() {
+        List<UserTaskAddInfoResponse> userTasks = userTaskService.getAll();
         if (userTasks.isEmpty()) {
             log.info(String.valueOf(HttpStatus.NO_CONTENT));
             return ResponseEntity
@@ -49,8 +48,8 @@ public class UserTaskController {
 
     @GetMapping("/current-user")
     @Operation(summary = "Получить информацию обо всех задачах залогиненного сотрудника")
-    public ResponseEntity<List<UserTaskResponse>> getCurrentUserTasks(Principal principal) {
-        List<UserTaskResponse> userTasks = userTaskService.getAllByUser(principal);
+    public ResponseEntity<List<UserTaskAddInfoResponse>> getCurrentUserTasks(Principal principal) {
+        List<UserTaskAddInfoResponse> userTasks = userTaskService.getAllByUser(principal);
         if (userTasks.isEmpty()) {
             log.info(String.valueOf(HttpStatus.NO_CONTENT));
             return ResponseEntity
@@ -89,7 +88,6 @@ public class UserTaskController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новую задачу")
     public ResponseEntity<UserTask> save(
@@ -99,7 +97,6 @@ public class UserTaskController {
                 .body(userTaskService.save(userTaskRequest));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить задачу по идентификатору")
     public ResponseEntity<UserTask> updateUserTask(
@@ -115,7 +112,6 @@ public class UserTaskController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить задачу по идентификатору")
     public ResponseEntity<String> deleteUserTask(
@@ -128,5 +124,4 @@ public class UserTaskController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
 }

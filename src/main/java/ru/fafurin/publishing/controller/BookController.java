@@ -4,11 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fafurin.publishing.dto.request.BookRequest;
 import ru.fafurin.publishing.entity.Book;
@@ -18,7 +17,7 @@ import ru.fafurin.publishing.service.BookService;
 import java.util.List;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/books")
 @Tag(
@@ -57,7 +56,6 @@ public class BookController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новую книгу")
     public ResponseEntity<Book> save(
@@ -68,7 +66,6 @@ public class BookController {
                 .body(bookService.save(bookRequest));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить данные о книге по идентификатору")
     public ResponseEntity<Book> update(
@@ -84,7 +81,6 @@ public class BookController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить книгу по идентификатору")
     public ResponseEntity<String> deleteBook(
@@ -97,5 +93,4 @@ public class BookController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
 }

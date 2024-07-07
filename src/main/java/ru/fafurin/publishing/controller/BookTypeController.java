@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +19,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/books/types")
 @Tag(
@@ -27,8 +28,7 @@ import java.util.List;
 )
 public class BookTypeController {
 
-    @Autowired
-    private BookTypeService bookTypeService;
+    private final BookTypeService bookTypeService;
 
     @GetMapping
     @Operation(summary = "Получить информацию обо всех типах книг")
@@ -58,7 +58,6 @@ public class BookTypeController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @Operation(summary = "Сохранить новый тип книги")
     public ResponseEntity<BookType> save(
@@ -68,7 +67,6 @@ public class BookTypeController {
                 .body(bookTypeService.save(bookTypeRequest));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Изменить тип книги по идентификатору")
     public ResponseEntity<BookType> updateBookType(
@@ -84,7 +82,6 @@ public class BookTypeController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить тип книги по идентификатору")
     public ResponseEntity<String> deleteBookType(

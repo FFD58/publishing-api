@@ -44,12 +44,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.ROLE_USER)
                 .build();
-
-        System.out.println("!!!!" + user);
-
         userService.save(user);
-
-
         return JwtResponse.builder()
                 .token(jwtService.generateToken(user))
                 .refreshToken(jwtService.generateRefreshToken(new HashMap<>(), user))
@@ -74,7 +69,6 @@ public class AuthServiceImpl implements AuthService {
                     request.getUsername(),
                     request.getPassword()
             ));
-
             UserDetails user = userService
                     .userDetailsService()
                     .loadUserByUsername(request.getUsername());
@@ -89,13 +83,9 @@ public class AuthServiceImpl implements AuthService {
                     .expirationTime(lifetime)
                     .message("Пользователь аутентифицирован")
                     .build();
-
-            System.out.println(jwtResponse);
-
         } catch (RuntimeException e) {
             jwtResponse.setMessage(e.getMessage());
         }
-        System.out.println(jwtResponse);
         return jwtResponse;
     }
 

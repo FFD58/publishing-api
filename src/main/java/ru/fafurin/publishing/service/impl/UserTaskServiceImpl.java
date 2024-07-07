@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.UserTaskRequest;
-import ru.fafurin.publishing.dto.response.UserTaskAllInfoResponse;
-import ru.fafurin.publishing.dto.response.UserTaskResponse;
+import ru.fafurin.publishing.dto.response.task.UserTaskAllInfoResponse;
+import ru.fafurin.publishing.dto.response.task.UserTaskAddInfoResponse;
 import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.entity.Status;
 import ru.fafurin.publishing.entity.User;
@@ -37,11 +37,11 @@ public class UserTaskServiceImpl implements UserTaskService {
      * @return список всех задач, отсортированных по дате изменения
      */
     @Override
-    public List<UserTaskResponse> getAll() {
+    public List<UserTaskAddInfoResponse> getAll() {
         List<UserTask> userTasks = userTaskRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedAt"));
         return userTasks.stream()
                 .filter(t -> !t.isDeleted())
-                .map(UserTaskMapper::getUserTaskResponse)
+                .map(UserTaskMapper::getUserTaskAddInfoResponse)
                 .collect(Collectors.toList());
     }
 
@@ -60,7 +60,6 @@ public class UserTaskServiceImpl implements UserTaskService {
         } else throw new UserTaskNotFoundException(id);
     }
 
-
     /**
      * Получить список задач залогиненного пользователя
      *
@@ -68,14 +67,14 @@ public class UserTaskServiceImpl implements UserTaskService {
      * @return - список задач залогиненного пользователя
      */
     @Override
-    public List<UserTaskResponse> getAllByUser(Principal principal) {
+    public List<UserTaskAddInfoResponse> getAllByUser(Principal principal) {
         Optional<User> userOptional = userRepository.findByUsername(principal.getName());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             List<UserTask> tasks = user.getTasks();
             return tasks.stream()
                     .filter(t -> !t.isDeleted())
-                    .map(UserTaskMapper::getUserTaskResponse)
+                    .map(UserTaskMapper::getUserTaskAddInfoResponse)
                     .collect(Collectors.toList());
         } else {
             throw new UserNotFoundException(principal.getName());
@@ -90,9 +89,6 @@ public class UserTaskServiceImpl implements UserTaskService {
      */
     @Override
     public UserTask save(UserTaskRequest userTaskRequest) {
-
-        System.out.println(userTaskRequest);
-
         UserTask userTask = UserTaskMapper.getUserTask(new UserTask(), userTaskRequest);
 
         Optional<User> userOptional = userRepository.findById(userTaskRequest.getUserId());

@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.OrderRequest;
-import ru.fafurin.publishing.dto.response.OrderAllInfoResponse;
-import ru.fafurin.publishing.dto.response.OrderResponse;
+import ru.fafurin.publishing.dto.response.order.OrderAllInfoResponse;
+import ru.fafurin.publishing.dto.response.order.OrderAddInfoResponse;
 import ru.fafurin.publishing.entity.*;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.mapper.OrderMapper;
@@ -35,13 +35,13 @@ public class OrderServiceImpl implements OrderService {
      * @return список всех заказов со статусом AWAIT, отсортированных по дате изменения
      */
     @Override
-    public List<OrderResponse> getAwaitingOrders() {
+    public List<OrderAddInfoResponse> getAwaitingOrders() {
         List<Order> orders = orderRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedAt"));
 
         return orders.stream()
                 .filter(o -> !o.isDeleted())
                 .filter(o -> o.getStatus() == Status.AWAIT)
-                .map(OrderMapper::getOrderResponse)
+                .map(OrderMapper::getOrderAddInfoResponse)
                 .collect(Collectors.toList());
     }
 

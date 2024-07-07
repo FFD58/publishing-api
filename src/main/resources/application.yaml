@@ -39,7 +39,6 @@ spring:
             enable: true
 
 springdoc:
-  show-actuator: false
   swagger-ui:
     enabled: true
     path: /index.html

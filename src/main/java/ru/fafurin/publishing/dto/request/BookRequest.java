@@ -34,7 +34,4 @@ public class BookRequest {
             example = "Толстой Лев Николаевич")
     @NotEmpty(message = "Authors must be not null")
     String authors;
-
-//    @Schema(description = "Пути к файлам")
-//    List<String> files;
 }

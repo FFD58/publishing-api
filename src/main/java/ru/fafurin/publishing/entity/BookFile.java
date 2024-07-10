@@ -23,7 +23,8 @@ public class BookFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String path;
-    boolean workable;
+    String type;
+    boolean workable = false;
     @CreationTimestamp
     LocalDateTime createdAt;
     @UpdateTimestamp

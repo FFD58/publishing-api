@@ -26,7 +26,7 @@ public class ReportServiceImpl implements ReportService {
      * Проверить у каких заказов осталось 30 дней до дедлайна.
      * Если такие заказы есть, заказчикам отправляется отчет о проделанной работе
      */
-    @Scheduled(cron = "00 10 * * * *")
+    @Scheduled(cron = "00 01 * * * *")
     @Override
     public void reportOnOrder() {
         List<Order> orders = orderService.findAllSoonOrders(DURATION);

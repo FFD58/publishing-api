@@ -3,13 +3,16 @@ package ru.fafurin.publishing.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.fafurin.publishing.dto.request.OrderRequest;
-import ru.fafurin.publishing.dto.response.order.OrderAllInfoResponse;
 import ru.fafurin.publishing.dto.response.order.OrderAddInfoResponse;
+import ru.fafurin.publishing.dto.response.order.OrderAllInfoResponse;
 import ru.fafurin.publishing.entity.*;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.mapper.OrderMapper;
+import ru.fafurin.publishing.repository.BookFileRepository;
 import ru.fafurin.publishing.repository.OrderRepository;
+import ru.fafurin.publishing.service.FileService;
 import ru.fafurin.publishing.service.MailService;
 import ru.fafurin.publishing.service.OrderService;
 
@@ -25,9 +28,11 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final BookFileRepository fileRepository;
     private final BookServiceImpl bookServiceImpl;
     private final CustomerServiceImpl customerService;
     private final MailService mailService;
+    private final FileService fileService;
 
     /**
      * Получить список всех заказов со статусом AWAIT, отсортированных по дате изменения
@@ -133,5 +138,28 @@ public class OrderServiceImpl implements OrderService {
 
     public void refresh(Order order) {
         orderRepository.save(order);
+    }
+
+    /**
+     * Загрузить файл
+     *
+     * @param id   - идентификатор заказа
+     * @param file - файл
+     * @return - название файла
+     */
+    @Override
+    public String uploadFile(Long id, MultipartFile file) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
+        String storageFileName = fileService.storeFile(file, LocalDateTime.now());
+        BookFile bookFile = BookFile.builder()
+                .path(storageFileName)
+                .type(file.getContentType())
+                .build();
+        System.out.println(bookFile);
+        fileRepository.save(bookFile);
+        order.getBook().setFiles(List.of(bookFile));
+        orderRepository.save(order);
+        return storageFileName;
     }
 }

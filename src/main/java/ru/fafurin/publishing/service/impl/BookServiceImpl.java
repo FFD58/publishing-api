@@ -3,18 +3,19 @@ package ru.fafurin.publishing.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.fafurin.publishing.dto.request.BookRequest;
+import ru.fafurin.publishing.entity.Book;
+import ru.fafurin.publishing.entity.BookFormat;
+import ru.fafurin.publishing.entity.BookType;
 import ru.fafurin.publishing.exception.BookFormatNotFoundException;
 import ru.fafurin.publishing.exception.BookNotFoundException;
 import ru.fafurin.publishing.exception.BookTypeNotFoundException;
 import ru.fafurin.publishing.mapper.BookMapper;
-import ru.fafurin.publishing.entity.Book;
-import ru.fafurin.publishing.entity.BookFormat;
-import ru.fafurin.publishing.entity.BookType;
 import ru.fafurin.publishing.repository.BookFormatRepository;
 import ru.fafurin.publishing.repository.BookRepository;
 import ru.fafurin.publishing.repository.BookTypeRepository;
 import ru.fafurin.publishing.repository.OrderRepository;
 import ru.fafurin.publishing.service.BookService;
+import ru.fafurin.publishing.service.FileService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,6 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookFormatRepository bookFormatRepository;
     private final BookTypeRepository bookTypeRepository;
-    private final OrderRepository orderRepository;
 
     /**
      * Получить список всех неудаленных книг
@@ -59,7 +59,6 @@ public class BookServiceImpl implements BookService {
      * @return сохраненная книга
      */
     public Book save(BookRequest bookRequest) {
-
         Book book = new Book();
 
         Long typeId = bookRequest.getTypeId();

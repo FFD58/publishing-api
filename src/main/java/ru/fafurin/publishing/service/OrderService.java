@@ -1,5 +1,6 @@
 package ru.fafurin.publishing.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import ru.fafurin.publishing.dto.request.OrderRequest;
 import ru.fafurin.publishing.dto.response.order.OrderAllInfoResponse;
 import ru.fafurin.publishing.dto.response.order.OrderAddInfoResponse;
@@ -23,4 +24,5 @@ public interface OrderService {
 
     void refresh(Order order);
 
+    String uploadFile(Long orderId, MultipartFile file);
 }

@@ -86,5 +86,4 @@ public class BookTypeServiceImpl implements BookTypeService {
         bookType.setDeleted(true);
         repository.save(bookType);
     }
-
 }

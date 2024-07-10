@@ -17,6 +17,8 @@ services:
       - POSTGRES_USERNAME=someuser
       - POSTGRES_PASSWORD=somepass
       - POSTGRES_URL=jdbc:postgresql://db:5432/publishing
+    volumes:
+      - ./files:/app/files
     depends_on:
       - db
     build:
@@ -30,9 +32,8 @@ services:
       - POSTGRES_DB=publishing
       - POSTGRES_USER=someuser
       - POSTGRES_PASSWORD=somepass
-#      - PGDATA=/data/postgres
     volumes:
-      - ./postgres_data:/data/postgres
+      - ./postgres_data:/var/lib/postgresql/data
     expose:
       - '5432'
     restart: unless-stopped

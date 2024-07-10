@@ -44,7 +44,7 @@ public class MailServiceImpl implements MailService {
      *
      * @param customer - заказчик
      */
-    private void sendCreationEmail(Customer customer) {
+    public void sendCreationEmail(Customer customer) {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper;
         try {
@@ -65,7 +65,7 @@ public class MailServiceImpl implements MailService {
      * @param customer - заказчик
      * @param props    - объекты, которые будут переданы в письме
      */
-    private void sendReportEmail(Customer customer, HashMap<String, Object> props) {
+    public void sendReportEmail(Customer customer, HashMap<String, Object> props) {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper;
         try {
@@ -86,7 +86,7 @@ public class MailServiceImpl implements MailService {
      * @param customer - заказчик
      * @return содержимое письма
      */
-    private String getCreationEmailContent(Customer customer) {
+    public String getCreationEmailContent(Customer customer) {
         Context context = new Context();
         StringWriter writer = new StringWriter();
         context.setVariable("customer", customer);
@@ -101,7 +101,7 @@ public class MailServiceImpl implements MailService {
      * @param props    - объекты, которые будут переданы в письме
      * @return содержимое письма
      */
-    private String getReportEmailContent(Customer customer, HashMap<String, Object> props) {
+    public String getReportEmailContent(Customer customer, HashMap<String, Object> props) {
         Context context = new Context();
         StringWriter writer = new StringWriter();
         context.setVariable("customer", customer);

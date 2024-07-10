@@ -9,9 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.fafurin.publishing.dto.request.OrderRequest;
-import ru.fafurin.publishing.dto.response.order.OrderAllInfoResponse;
 import ru.fafurin.publishing.dto.response.order.OrderAddInfoResponse;
+import ru.fafurin.publishing.dto.response.order.OrderAllInfoResponse;
 import ru.fafurin.publishing.entity.Order;
 import ru.fafurin.publishing.exception.OrderNotFoundException;
 import ru.fafurin.publishing.service.OrderService;
@@ -65,6 +66,7 @@ public class OrderController {
     public ResponseEntity<Order> save(
             @RequestBody @Valid OrderRequest orderRequest) {
         Order order = orderService.save(orderRequest);
+        log.info("Заказ с идентификатором: {} сохранен", order.getId());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(order);
@@ -76,9 +78,11 @@ public class OrderController {
             @RequestBody @Valid OrderRequest orderRequest,
             @Parameter(description = "Идентификатор") @PathVariable Long id) {
         try {
+            Order updatedOrder = orderService.update(id, orderRequest);
+            log.info("Заказ с идентификатором: {} изменен", id);
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(orderService.update(id, orderRequest));
+                    .body(updatedOrder);
         } catch (OrderNotFoundException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -91,7 +95,22 @@ public class OrderController {
             @Parameter(description = "Идентификатор") @PathVariable Long id) {
         try {
             orderService.delete(id);
-            return ResponseEntity.ok(String.format("Order with id: %d deleted", id));
+            log.info("Заказ с идентификатором: {} удален", id);
+            return ResponseEntity.ok(String.format("Заказ с идентификатором: %d удален", id));
+        } catch (OrderNotFoundException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping("/{orderId}/upload-file")
+    public ResponseEntity<String> uploadFile(
+            @Parameter(description = "Идентификатор") @PathVariable Long orderId,
+            @RequestParam("file") MultipartFile file) {
+        try {
+            String filename = orderService.uploadFile(orderId, file);
+            log.info("{} успешно загружен", filename);
+            return ResponseEntity.ok("Файл успешно загружен: " + filename);
         } catch (OrderNotFoundException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

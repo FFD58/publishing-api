@@ -1,6 +1,6 @@
 package ru.fafurin.publishing.service.impl;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,8 +13,8 @@ import ru.fafurin.publishing.mapper.OrderMapper;
 import ru.fafurin.publishing.repository.BookFileRepository;
 import ru.fafurin.publishing.repository.OrderRepository;
 import ru.fafurin.publishing.service.FileService;
-import ru.fafurin.publishing.service.MailService;
 import ru.fafurin.publishing.service.OrderService;
+import ru.fafurin.publishing.service.mail.MailSender;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -24,15 +24,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final BookFileRepository fileRepository;
     private final BookServiceImpl bookServiceImpl;
     private final CustomerServiceImpl customerService;
-    private final MailService mailService;
     private final FileService fileService;
+    private final MailSender mailSender;
 
     /**
      * Получить список всех заказов со статусом AWAIT, отсортированных по дате изменения
@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomer(customer);
         order.setStatus(Status.AWAIT);
         orderRepository.save(order);
-        mailService.sendEmail(order.getCustomer(), MailType.CREATION, null);
+        mailSender.send(order.getCustomer(), MailType.ORDER_CREATE, null);
         return order;
     }
 

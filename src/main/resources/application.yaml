@@ -3,7 +3,7 @@ server:
 
 token:
   key: ${JWT_KEY}
-  lifetime: 1_800_000
+  lifetime: 86_400_000
 
 spring:
   application:
